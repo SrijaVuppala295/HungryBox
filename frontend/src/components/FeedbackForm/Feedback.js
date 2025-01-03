@@ -1,5 +1,6 @@
 import { React, useState, useCallback } from "react";
 import "./Feedback.css";
+import axios from "axios";
 import { assets } from "../../assets/assets";
 import { FaStar } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";
@@ -22,16 +23,23 @@ function Feedback() {
   }, []);
 
   const handleSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const data = {
         name: formData.get("name"),
         email: formData.get("email"),
         feedback: formData.get("feedback"),
-        rating,
+        rating: rating,
       };
-      console.log(data);
+
+      try {
+        const newfeedback = await axios.post(
+          "http://localhost:4000/api/feedback/add",
+          data
+        );
+        console.log(newfeedback);
+      } catch (error) {}
     },
     [rating]
   );
@@ -58,8 +66,8 @@ function Feedback() {
             type="text"
             placeholder="Name"
             required
-            pattern="^[a-zA-Z]{3,15}$"
-            title="Name must be at least 3 characters long."
+            pattern="^[a-zA-Z\s]{3,50}$"
+            title="Name must be 3 to 50 characters long and can include letters (a-z, A-Z) and spaces only."
           />
 
           <input
