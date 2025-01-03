@@ -1,23 +1,40 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useCallback } from "react";
 import "./Feedback.css";
 import { assets } from "../../assets/assets";
 import { FaStar } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";
 
 function Feedback() {
+  // States to manage the rating
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleClick = useCallback((star) => {
+    setRating(star);
+  }, []);
 
-    const formData = new FormData(e.target);
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const feedback = formData.get("feedback");
+  const handleMouseEnter = useCallback((star) => {
+    setHover(star);
+  }, []);
 
-    console.log(name, email, feedback);
-  };
+  const handleMouseLeave = useCallback(() => {
+    setHover(0);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        feedback: formData.get("feedback"),
+        rating,
+      };
+      console.log(data);
+    },
+    [rating]
+  );
 
   return (
     <div className="feedback">
@@ -62,7 +79,16 @@ function Feedback() {
           ></textarea>
           <div className="rating-container">
             {[1, 2, 3, 4, 5].map((star) => (
-              <FaStar className="star" />
+              <FaStar
+                key={star}
+                className={`star ${star <= (hover || rating) ? "active" : ""}`}
+                onClick={() => handleClick(star)}
+                onMouseEnter={() => handleMouseEnter(star)}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                  color: star <= rating ? "yellow" : "white",
+                }}
+              />
             ))}
           </div>
           <button type="submit">SUBMIT FEEDBACK</button>

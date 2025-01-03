@@ -8,14 +8,6 @@ textarea::placeholder {
   font-size: 20px;
 }
 
-input:valid {
-  border: 2px solid green;
-}
-
-input:invalid {
-  border: 2px solid red !important;
-}
-
 .feedback {
   display: flex;
   flex-wrap: wrap;
@@ -107,6 +99,11 @@ input:invalid {
   height: 2rem;
   cursor: pointer;
   color: white;
+  transition: color 200ms;
+}
+
+.right-container form .rating-container .star.active {
+  color: yellow;
 }
 
 .right-container form .rating-container .star:hover {
