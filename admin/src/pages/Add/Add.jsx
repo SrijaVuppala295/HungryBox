@@ -4,9 +4,11 @@ import "./Add.css";
 import { assets } from "../../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading/Loading";
 
 const Add = ({ url }) => {
-  const [image, setImage] = useState(false); // upload files from system
+  const [image, setImage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [data, setData] = useState({
     name: "",
@@ -22,7 +24,9 @@ const Add = ({ url }) => {
   };
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault(); // to prevent from reloading
+    event.preventDefault();
+    setIsLoading(true);
+
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.desc);
@@ -38,7 +42,7 @@ const Add = ({ url }) => {
           name: "",
           desc: "",
           price: "",
-          category: "Breakfast", // Reset category to "Breakfast"
+          category: "Breakfast",
         });
 
         setImage(false);
@@ -48,11 +52,20 @@ const Add = ({ url }) => {
       }
     } catch (error) {
       toast.error("Something went wrong!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="add">
+      {/* Show loader while loading */}
+      {isLoading && (
+        <div className="loader-overlay">
+          <Loading />
+        </div>
+      )}
+
       <form className="flex-col" onSubmit={onSubmitHandler}>
         <div className="add-img-upload flex-col">
           <p>Upload Image</p>
@@ -60,9 +73,8 @@ const Add = ({ url }) => {
           <label htmlFor="image">
             <img
               src={image ? URL.createObjectURL(image) : assets.upload_area}
-              alt=""
-            />{" "}
-            {/* Image preview */}
+              alt="Image Preview"
+            />
           </label>
 
           <input
@@ -90,7 +102,6 @@ const Add = ({ url }) => {
           <textarea
             onChange={onChangeHandler}
             value={data.desc}
-            type="text"
             name="desc"
             rows="6"
             placeholder="Product Description here"
