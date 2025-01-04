@@ -4,11 +4,18 @@ import axios from "axios";
 import { assets } from "../../assets/assets";
 import { FaStar } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";
+import FeedbackPopup from "../FeedbackPopup/FeedbackPopup";
 
 function Feedback() {
   // States to manage the rating
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+
+  // State to manage the error
+  const [error, setError] = useState("");
+
+  // State to manage the popup
+  const [showpopup, setShowpopup] = useState(false);
 
   const handleClick = useCallback((star) => {
     setRating(star);
@@ -39,7 +46,17 @@ function Feedback() {
           data
         );
         console.log(newfeedback);
-      } catch (error) {}
+
+        if (newfeedback.status === 200) {
+          setShowpopup(true);
+          setTimeout(() => {
+            setShowpopup(false);
+          }, 2000);
+        }
+      } catch (error) {
+        console.log(error);
+        setError("Something went wrong!");
+      }
     },
     [rating]
   );
@@ -99,9 +116,12 @@ function Feedback() {
               />
             ))}
           </div>
+          {error && <p className="error">{error}</p>}
           <button type="submit">SUBMIT FEEDBACK</button>
         </form>
       </div>
+
+      {showpopup && <FeedbackPopup />}
     </div>
   );
 }
