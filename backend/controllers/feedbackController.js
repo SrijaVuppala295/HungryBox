@@ -16,13 +16,19 @@ const feedbackController = async (req, res) => {
     });
 
     if (newfeedback) {
-      res.status(200).json({ message: "Feedback Submitted Successfully" });
-    }
+      const sendingMail = await sendMail(req, res);
 
-    const sendingMail = await sendMail(req, res);
+      if (sendingMail.success) {
+        return res.status(200).json({
+          message: "Mail sent successfully",
+          name: name,
+          email: email,
+        });
+      }
+    }
   } catch (error) {
     console.error(`Error creating the feedback: ${error}`);
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
