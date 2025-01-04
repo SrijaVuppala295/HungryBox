@@ -1,4 +1,5 @@
 import Feedback from "../models/feedback.js";
+import sendMail from "../Services/MailSender.js";
 
 const feedbackController = async (req, res) => {
   const name = req.body.name;
@@ -17,6 +18,8 @@ const feedbackController = async (req, res) => {
     if (newfeedback) {
       res.status(200).json({ message: "Feedback Submitted Successfully" });
     }
+
+    const sendingMail = await sendMail(req, res);
   } catch (error) {
     console.error(`Error creating the feedback: ${error}`);
     res.status(500).json({ error: error.message });
