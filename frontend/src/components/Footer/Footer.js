@@ -1,106 +1,75 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 import { assets } from "../../assets/assets";
 
 const Footer = () => {
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    document.getElementById('year').textContent = currentYear;
+  }, []);
+
   return (
-    <section class="section-container mt-4">
-    <div class="container">
-        <div class="grid-layout">
-            <div class="brand-container">
-                 <div class="crop">
-        <img src="https://hungrybox-frontend.onrender.com/static/media/logo.7464c701e35f7a0fefb1.png" alt="Donald Duck"/>
-    </div>
-
-                <p class="brand-description">
-                Craving something delicious? 🍕 We've got you covered! Fast. Fresh. Reliable. 💨
-                </p>
-
-                <ul class="social-icons">
-                    <li>
-                        <a href="#" title="" class="social-icon twitter">
-                        <img src={assets.twitter_icon} alt="" />
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="social-icon facebook">
-                        <img src={assets.facebook_icon} alt="" />
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="social-icon linkedin">
-                        <img src={assets.linkedin_icon} alt="" />
-                        </a>
-                    </li>
-                    
-                </ul>
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-content">
+          <div className="footer-brand">
+            <h2 className="company-name">Hungry Box</h2>
+            <p className="brand-desc">
+              Craving something delicious? Fast. Fresh. Reliable.
+            </p>
+            <div className="social-links">
+              <a href="#" className="social-link">
+                <img src={assets.twitter_icon} alt="Twitter" />
+              </a>
+              <a href="#" className="social-link">
+                <img src={assets.facebook_icon} alt="Facebook" />
+              </a>
+              <a href="#" className="social-link">
+                <img src={assets.linkedin_icon} alt="LinkedIn" />
+              </a>
             </div>
+          </div>
 
-            <div class="links-container">
-                <p class="section-title">Company</p>
-
-                <ul class="links-list">
-                    <li>
-                        <a href="#" title="" class="link-item">About</a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="link-item">Features</a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="link-item">Works</a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="link-item">Career</a>
-                    </li>
-                </ul>
+          <nav className="footer-nav">
+            <div className="nav-column">
+              <ul>
+                <li><Link to="/contactus">Contact Us</Link></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Features</a></li>
+              </ul>
             </div>
-
-            <div class="help-container">
-                <p class="section-title">Help</p>
-
-                <ul class="links-list">
-                    <li>
-                        <a href="#" title="" class="link-item">Customer Support</a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="link-item">Delivery Details</a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="link-item">Terms & Conditions</a>
-                    </li>
-                    <li>
-                        <a href="#" title="" class="link-item">Privacy Policy</a>
-                    </li>
-                    
-                </ul>
+            <div className="nav-column">
+              <ul>
+                <li><a href="#">Career</a></li>
+                <li><a href="#">Terms & Policy</a></li>
+                <li><a href="#">Privacy</a></li>
+              </ul>
             </div>
-            <div class="subscription-container">
-    <p class="subscription-heading">Subscribe to newsletter</p>
+          </nav>
 
-    <form action="#" method="POST" class="subscription-form">
-        <div>
-            <label for="email" class="sr-only"></label>
-            <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter your email"
-                class="email-input"
-            />
+          <div className="footer-newsletter">
+            <h3 className="footer-title">Newsletter</h3>
+            <form className="newsletter-form">
+              <div className="input-group">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="newsletter-input"
+                />
+                <button type="submit" className="newsletter-button">
+                  Subscribe
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <button type="submit" class="subscribe-button">Subscribe</button>
-    </form>
-</div>
-
+        <div className="footer-bottom">
+          <p>© <span id="year"></span> Hungry Box, All Rights Reserved</p>
         </div>
-        <hr class="custom-divider" />
-
-<p class="footer-text">© Copyright 2021, All Rights Reserved by hungrybox</p>
-
-    </div>
-</section>
-
+      </div>
+    </footer>
   );
 };
 

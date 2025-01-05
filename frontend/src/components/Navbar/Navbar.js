@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { StoreContext } from "../../context/StoreContext";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
 
@@ -19,11 +20,13 @@ const Navbar = ({ setShowLogin }) => {
 
   return (
     <div className="navbar">
-      <Link to="/">
-        <img src={assets.logo} alt="" className="logo" />
-      </Link>
+      <div className="navbar-left">
+        <Link to="/">
+          <img src={assets.logo} alt="Logo" className="logo" />
+        </Link>
+      </div>
 
-      <ul className="navbar-menu">
+      <div className={`navbar-menu ${isMenuOpen ? "open" : ""}`}>
         <Link
           to="/"
           onClick={() => setMenu("home")}
@@ -45,45 +48,52 @@ const Navbar = ({ setShowLogin }) => {
         >
           Mobile App
         </a>
-        <a
-          href="#footer"
+        <Link
+          to="/contactus"
           onClick={() => setMenu("contact")}
           className={menu === "contact" ? "active" : ""}
         >
           Contact Us
-        </a>
-      </ul>
+        </Link>
+        <Link
+          to="/subscription"
+          onClick={() => setMenu("subscription")}
+          className={menu === "subscription" ? "active" : ""}
+        >
+          Subscription
+        </Link>
+      </div>
 
       <div className="navbar-right">
         <div className="navbar-search-icon">
           <Link to="/cart">
-            <img src={assets.basket_icon} alt="" />
+            <img src={assets.basket_icon} alt="Cart" />
           </Link>
-
           <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
         </div>
 
         {!token ? (
-          <button onClick={() => setShowLogin(true)}>Sign Up</button>
+          <button onClick={() => setShowLogin(true)} className="auth-button">
+            Sign Up
+          </button>
         ) : (
           <div className="navbar-profile">
-            <img src={assets.profile_icon} alt="" />
+            <img src={assets.profile_icon} alt="Profile" />
 
             <ul className="nav-profile-dropdown">
-              <li onClick={() => navigate("/myorders")}>
-                <img src={assets.bag_icon} alt="" />
-                <p>Orders</p>
-              </li>
-
+              <li onClick={() => navigate("/myorders")}>Orders</li>
               <hr />
-
-              <li>
-                <img src={assets.logout_icon} alt="" />
-                <p onClick={logout}>Logout</p>
-              </li>
+              <li onClick={logout}>Logout</li>
             </ul>
           </div>
         )}
+
+        <button
+          className="menu-toggle"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? "✖" : "☰"}
+        </button>
       </div>
     </div>
   );
