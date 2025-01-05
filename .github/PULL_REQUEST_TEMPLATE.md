@@ -10,3 +10,5 @@
 - [ ] Improvement
 - [ ] Documentation Update
 
+## Images
+<!-- Add images if applicable -->
