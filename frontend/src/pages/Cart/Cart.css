@@ -50,8 +50,16 @@
   color: black;
 }
 
+.cart-total-details>b{
+  color: whitesmoke;
+}
+
 .cart-total hr {
   margin: 10px 0;
+}
+
+.cart-total>h2{
+  color: white;
 }
 
 .cart-total button {

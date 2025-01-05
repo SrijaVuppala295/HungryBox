@@ -13,7 +13,7 @@
   background-color: #FED8B1;
 }
 
-.navbar .logo {
+.logo {
   width: 150px;
   height: 150px;
   padding: 3px;
@@ -21,11 +21,11 @@
 
 .navbar-menu {
   display: flex;
-  list-style: none;
   gap: 20px;
   color: #6F4E37;
   font-size: 19px;
 }
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -50,9 +50,31 @@
 .navbar .active {
   padding-bottom: 2px;
   border-bottom: 2px solid #6F4E37;
+  list-style: none;
 }
 
-.navbar li {
+.navbar-menu a,
+.navbar-menu .active {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+  background-color: #ff5722;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-profile img {
+  width: 30px;
   cursor: pointer;
 }
 
@@ -94,70 +116,49 @@
 }
 
 .nav-profile-dropdown li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  margin: 5px 0;
   cursor: pointer;
-}
-
-.nav-profile-dropdown img {
-  width: 20px;
 }
 
 .nav-profile-dropdown li:hover {
   color: rgb(255, 38, 0);
 }
 
-@media (max-width: 1050px) {
-  .navbar .logo {
-    width: 140px;
-  }
-  .navbar-menu {
-    gap: 20px;
-    font-size: 17px;
-  }
-  .navbar-right {
-    gap: 30px;
-  }
-  .navbar-right img {
-    width: 22px;
-  }
-  .navbar-right button {
-    padding: 8px 25px;
-  }
+.auth-button:hover {
+  background: #ff5722;
+  color: white;
 }
 
-@media (max-width: 900px) {
-  .navbar .logo {
-    width: 120px;
-  }
-  .navbar-menu {
-    gap: 15px;
-    font-size: 15px;
-  }
-  .navbar-right {
-    gap: 20px;
-  }
-  .navbar-right img {
-    width: 20px;
-  }
-  .navbar-right button {
-    padding: 7px 20px;
-    font-size: 15px;
-  }
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  display: none;
+  cursor: pointer;
 }
 
-@media (max-width: 750px) {
+.navbar-menu.open {
+  flex-direction: column;
+  background: #ff7043;
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  border-radius: 8px;
+  padding: 10px 20px;
+  display: none;
+}
+
+@media (max-width: 768px) {
   .navbar-menu {
     display: none;
   }
-  .navbar-right {
-    gap: 30px;
+
+  .menu-toggle {
+    display: block;
   }
-  .navbar-right img {
-    width: 22px;
-  }
-  .navbar-right button {
-    padding: 8px 25px;
+
+  .navbar-menu.open {
+    display: flex;
   }
 }
