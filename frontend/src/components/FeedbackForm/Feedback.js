@@ -39,7 +39,7 @@ function Feedback() {
         feedback: formData.get("feedback"),
         rating: rating,
       };
-
+      setError("");
       try {
         const newfeedback = await axios.post(
           "http://localhost:4000/api/feedback/add",
