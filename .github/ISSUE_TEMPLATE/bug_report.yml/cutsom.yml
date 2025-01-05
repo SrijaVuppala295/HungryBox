@@ -1,0 +1,26 @@
+name: Custom Issue 🚀
+description: Use this template for any other type of issue.
+title: "[CUSTOM] "
+labels: needs triage
+assignees: ''
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Please provide a detailed description of your issue or request below.**
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 📝 Details
+      description: Provide as much information as possible.
+      placeholder: "Describe your issue, request, or suggestion."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📂 Additional Context or Screenshots
+      description: Add any other context or attach screenshots if applicable.

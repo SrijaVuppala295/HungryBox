@@ -1,0 +1,44 @@
+name: Documentation Request 📚
+description: Contribute to the HungryBox documentation or share additional technical details.
+title: "[DOCS] "
+labels: documentation, needs triage
+assignees: ''
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thank you for helping improve HungryBox documentation! This template will guide you to suggest updates, add missing information, or share technical details.**
+
+  - type: input
+    id: doc-title
+    attributes:
+      label: 📘 Title
+      description: Provide a short and clear title for the documentation request or update.
+      placeholder: "E.g., Add setup instructions for MongoDB Atlas"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Description
+      description: Describe the documentation request or improvement in detail.
+      placeholder: |
+        What part of the documentation needs improvement or addition?
+        E.g., Add steps for setting up a development environment.
+    validations:
+      required: true
+
+  - type: textarea
+    id: missing-info
+    attributes:
+      label: ❓ Missing Information
+      description: If applicable, specify what is missing in the current documentation.
+      placeholder: "E.g., No details about how to configure environment variables in backend."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-details
+    att
