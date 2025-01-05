@@ -5,18 +5,20 @@
 }
 
 .explore-menu h1 {
-  color: #eee;
+  color: #6F4E37;
   font-weight: 500;
   text-align: center;
   margin-top: 25px;
+  font-size: 40px;
 }
 
 .explore-menu .explore-menu-text {
   max-width: 80%;
-  color: #808080;
+  color: black;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  font-size: 17px;
 }
 
 .explore-menu-list {
@@ -39,13 +41,16 @@
   cursor: pointer;
   border-radius: 50%;
   transition: 0.2s;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .explore-menu-list-item p {
   margin-top: 10px;
-  color: #747474;
+  color: #6F4E37;
   font-size: max(1.4vw, 16px);
   cursor: pointer;
+  font-family: pacifico;
+  font-size: 21px;
 }
 
 .explore-menu hr {
@@ -56,6 +61,6 @@
 }
 
 .explore-menu-list-item .active {
-  border: 4px solid tomato;
+  border: 4px solid rgb(48, 67, 114);
   padding: 2px;
 }

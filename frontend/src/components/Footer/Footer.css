@@ -1,11 +1,11 @@
 .footer {
   color: #d9d9d9;
-  background-color: #323232;
+  background-color: #FED8B1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  padding: 20px 8vw;
+  padding: 5px 8vw;
   padding-top: 80px;
   margin-top: 50px;
 }
@@ -18,7 +18,7 @@
 
 .footer-left .logo {
   height: 65%;
-  width: 22%;
+  width: 30%;
 }
 
 .footer-left,
@@ -36,25 +36,31 @@
   list-style: none;
   margin-bottom: 10px;
   cursor: pointer;
+  color: #A67B5B;
 }
 
 .footer-left h2,
 .footer-center h2,
 .footer-right h2 {
-  color: #fff;
+  color: #6F4E37;
 }
 
 .footer-social-icons img {
-  width: 40px;
-  margin-right: 15px;
+  width: 45px;
+  margin-right: 35px;
 }
 
 .footer hr {
   width: 100%;
   height: 2px;
   margin: 20px 0;
-  background-color: grey;
+  background-color: black;
   border: none;
+}
+
+.copyright{
+  color: #A67B5B;
+  padding: 10px;
 }
 
 @media (max-width: 750px) {

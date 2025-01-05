@@ -27,7 +27,7 @@
 .food-item-rating p {
   font-size: 20px;
   font-weight: 500;
-  color: #fff;
+  color: #1b1007;
 }
 
 .food-item-rating img {
@@ -35,13 +35,13 @@
 }
 
 .food-item-desc {
-  color: #b8b6b6;
+  color: #5f432d;
   font-size: 16px;
   font-weight: 500;
 }
 
 .food-item-price {
-  color: tomato;
+  color: rgb(195, 25, 25);
   font-size: 22px;
   font-weight: 500;
   margin: 10px 0;
@@ -69,7 +69,7 @@
   gap: 10px;
   padding: 6px;
   border-radius: 50px;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 .food-item-counter img {
