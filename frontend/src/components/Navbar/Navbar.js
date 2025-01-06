@@ -8,6 +8,7 @@ const Navbar = ({ setShowLogin }) => {
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
   const [menu, setMenu] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Track navbar visibility
   const navigate = useNavigate();
 
   const logout = useCallback(() => {
@@ -33,12 +34,30 @@ const Navbar = ({ setShowLogin }) => {
       setToken(null);
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [setToken]);
 
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (window.scrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      } else if (window.scrollY > lastScrollY) {
+        // Scrolling down
+        setIsVisible(false);
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="navbar">
+    <div className={`navbar ${isVisible ? "visible" : "hidden"}`}>
       <div className="navbar-left">
         <Link to="/">
           <img src={assets.logo} alt="Logo" className="logo" />
@@ -111,7 +130,7 @@ const Navbar = ({ setShowLogin }) => {
             </ul>
           </div>
         )}
-        
+
         <button
           className="menu-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}

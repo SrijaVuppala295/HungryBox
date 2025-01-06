@@ -4,9 +4,21 @@
   justify-content: space-evenly;
   align-items: center;
   color: #fff;
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   z-index: 1000;
+  position: fixed;
+  /* background-color: black; */
+  width: 80%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%); /* Hides navbar off the top */
+}
+
+.navbar.visible {
+  transform: translateY(0); /* Shows navbar at the top */
 }
 
 .logo {
