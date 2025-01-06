@@ -4,8 +4,9 @@
   justify-content: space-evenly;
   align-items: center;
   color: #fff;
-  position: sticky;
-  top: 0;
+  /* Remove sticky positioning */
+  /* position: sticky; */
+  /* top: 0; */
   z-index: 1000;
 }
 
