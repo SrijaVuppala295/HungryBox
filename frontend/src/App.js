@@ -10,6 +10,7 @@ import Verify from "./pages/Verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import { Subscription } from "./pages/Subscription/Subscription";
+import HappyClients from './components/HappyClients/HappyClients';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/myorders" element={<MyOrders />} />
           <Route path="/contactus" element={<ContactUs />} />
         </Routes>
+        <HappyClients />
       </div>
       <Footer />
     </>
