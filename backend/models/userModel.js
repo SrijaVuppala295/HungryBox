@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   cartData: { type: Object, default: {} },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
+  subscription: { type: Boolean, default: false },
 });
 
 const userModel = mongoose.model("user", userSchema);

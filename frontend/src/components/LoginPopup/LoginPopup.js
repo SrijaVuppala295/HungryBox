@@ -20,17 +20,55 @@ const LoginPopup = ({ setShowLogin }) => {
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleLogin = async () => {
+    try {
+      // Clear cookies before login
+      document.cookie.split(";").forEach(cookie => {
+        document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      const response = await axios.post(`${url}/api/login`, {
+        email: data.email,
+        password: data.password,
+      });
+
+      if (response.data.success) {
+        // Clear any existing token first
+        sessionStorage.removeItem("token");
+        // Set new token
+        const newToken = response.data.token;
+        sessionStorage.setItem("token", newToken);
+        setToken(newToken);
+        setShowLogin(false);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
+    }
+  };
+
   const onLoginOrSignUp = async (event) => {
     event.preventDefault();
-    const endpoint =
-      currentState === "Login" ? "/api/user/login" : "/api/user/register";
+    const endpoint = currentState === "Login" ? "/api/user/login" : "/api/user/register";
     const newUrl = `${url}${endpoint}`;
 
     try {
+      // Clear any existing session data
+      sessionStorage.clear();
+      document.cookie.split(";").forEach(cookie => {
+        document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
       const response = await axios.post(newUrl, data);
       if (response.data.success) {
-        setToken(response.data.token);
-        localStorage.setItem("token", response.data.token);
+        const newToken = response.data.token;
+        // Update session storage and context immediately
+        sessionStorage.setItem("token", newToken);
+        setToken(newToken); // This will trigger navbar update
         setShowLogin(false);
       } else {
         alert(response.data.message);

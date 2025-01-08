@@ -2,6 +2,7 @@
   background-color: #131313;
   padding: 3.5rem 0 2rem;
   border-top: 1px solid #222222;
+  animation: fadeIn 0.8s ease-out;
 }
 
 .footer-container {
@@ -22,6 +23,7 @@
   font-weight: 700;
   color: #ff5f03;
   margin-bottom: 1rem;
+  animation: slideIn 0.5s ease-out;
 }
 
 .brand-desc {
@@ -44,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 .social-link:hover {
@@ -58,21 +60,9 @@
   filter: invert(1);
 }
 
-.footer-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding-top: 0.5rem;
-}
-
-.nav-column ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 .nav-column ul li {
   margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .nav-column ul li a {
@@ -95,6 +85,7 @@
   margin-bottom: 1.25rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .newsletter-form {
@@ -148,6 +139,7 @@
   text-align: center;
   padding-top: 1.5rem;
   border-top: 1px solid #222222;
+  animation: fadeIn 0.8s ease-out;
 }
 
 .footer-bottom p {
@@ -166,7 +158,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
   .footer-content {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -180,3 +172,36 @@
     padding: 2.5rem 0 1.5rem;
   }
 }
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+

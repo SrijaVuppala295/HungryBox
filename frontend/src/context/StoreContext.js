@@ -5,10 +5,25 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(() => sessionStorage.getItem("token") || null);
   const [food_list, setFoodList] = useState([]);
 
   const url = "https://hungrybox.onrender.com";
+
+  // Add token validation function
+  const validateToken = async (token) => {
+    if (!token) return false;
+    try {
+      const response = await axios.post(
+        `${url}/api/validate-token`,
+        {},
+        { headers: { token } }
+      );
+      return response.data.valid;
+    } catch (error) {
+      return false;
+    }
+  };
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -74,15 +89,66 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     async function loadData() {
-      await fetchFoodList();
-
-      if (localStorage.getItem("token")) {
-        setToken(localStorage.getItem("token"));
-        await loadCartData(localStorage.getItem("token"));
+      const savedToken = sessionStorage.getItem("token");
+      
+      // Add beforeunload event listener
+      const handleBeforeUnload = () => {
+        sessionStorage.clear();
+        setToken(null);
+        setCartItems({});
+      };
+      
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      
+      if (savedToken) {
+        const isValid = await validateToken(savedToken);
+        if (!isValid) {
+          sessionStorage.clear();
+          setToken(null);
+          setCartItems({});
+        } else {
+          setToken(savedToken);
+          await loadCartData(savedToken);
+        }
       }
+
+      await fetchFoodList();
+      
+      return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }
     loadData();
   }, []);
+
+  // Add page reload/refresh handler
+  useEffect(() => {
+    const handlePageReload = () => {
+      sessionStorage.clear();
+      document.cookie.split(";").forEach(cookie => {
+        document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+      setToken(null);
+      setCartItems({});
+    };
+
+    // Handle page refresh
+    window.addEventListener('beforeunload', handlePageReload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handlePageReload);
+    };
+  }, []);
+
+  // Token effect handler
+  useEffect(() => {
+    if (token) {
+      sessionStorage.setItem("token", token);
+    } else {
+      sessionStorage.removeItem("token");
+      setCartItems({});
+    }
+  }, [token]);
 
   const contextValue = {
     food_list,

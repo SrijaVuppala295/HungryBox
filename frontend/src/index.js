@@ -16,3 +16,23 @@ root.render(
 );
 
 reportWebVitals();
+
+// Get the button
+const scrollBtn = document.getElementById("scrollBtn");
+
+// Show or hide the button based on scroll position
+window.onscroll = function () {
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    scrollBtn.classList.add("show");
+  } else {
+    scrollBtn.classList.remove("show");
+  }
+};
+
+// Scroll to top function
+scrollBtn.onclick = function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
