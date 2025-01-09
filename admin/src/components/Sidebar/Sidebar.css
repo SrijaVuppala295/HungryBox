@@ -35,3 +35,17 @@
     display: none;
   }
 }
+
+.icon{
+  font-size: 1.5rem;
+  color: #131313;
+}
+
+body.dark .icon{
+  color: #fff;
+}
+
+.sidebar-option.active .icon{
+  color: #131313;
+  font-size: 1.5rem;
+}
