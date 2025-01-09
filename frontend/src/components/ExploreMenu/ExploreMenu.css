@@ -8,7 +8,7 @@
 .explore-menu h1 {
 
 
-  color: #eee;
+  color: var(--text-color);
   font-weight: 600;
   text-align: center;
   margin-top: 25px;
