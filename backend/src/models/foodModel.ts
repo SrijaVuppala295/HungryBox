@@ -1,7 +1,7 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface IReview extends Document {
-  userId: mongoose.Schema.Types.ObjectId;
+  userId: string;
   rating: number;
   comment?: string;
 }
@@ -19,7 +19,7 @@ interface IFood extends Document {
 }
 
 const reviewSchema: Schema<IReview> = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: String, ref: 'User', required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
   comment: { type: String }
 });
@@ -37,5 +37,5 @@ const foodSchema: Schema<IFood> = new mongoose.Schema({
 });
 
 const foodModel: Model<IFood> = mongoose.models.food || mongoose.model<IFood>("food", foodSchema);
-
+export {IFood, IReview};
 export default foodModel;

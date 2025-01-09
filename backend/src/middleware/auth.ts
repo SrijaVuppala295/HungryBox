@@ -4,7 +4,8 @@ const JWT_SECRET = process.env.JWT_SECRET as string
 const authMiddleware = async (req : Request, res : Response, next : NextFunction) => {
   const token = req.headers.token as string;
   if (!token) {
-    return res.json({ succes: false, message: "Not Authorized, Login Again" });
+    res.json({ succes: false, message: "Not Authorized, Login Again" });
+    return
   }
 
   try {

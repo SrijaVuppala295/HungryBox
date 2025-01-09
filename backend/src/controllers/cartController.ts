@@ -11,7 +11,7 @@ const addToCart = async (req : Request, res : Response) => {
       res.json({ success: false, message: "User not found" });
       return;
     }
-    const cartData = userData.cartData;
+    const cartData  = userData.cartData as Record<string,number>
 
     const foodItem = await foodModel.findById(req.body.itemId);
     if (!foodItem) {
@@ -26,7 +26,7 @@ const addToCart = async (req : Request, res : Response) => {
 
       // Validate non-subscriber's order
       if (foodItem.day !== currentDay || foodItem.timeSlot !== currentSlot) {
-        return res.json({
+        res.json({
           success: false,
           message: `Non-subscribers can only order meals available for ${currentDay} ${currentSlot}.`,
         });
@@ -49,10 +49,14 @@ const addToCart = async (req : Request, res : Response) => {
   }
 };
 // Remove items from user cart
-const removeFromCart = async (req, res) => {
+const removeFromCart = async (req : Request, res : Response) => {
   try {
     let userData = await userModel.findById(req.body.userId);
-    let cartData = await userData.cartData;
+    if (!userData) {
+      res.json({ success: false, message: "User not found" });
+      return;
+    }
+    let cartData = userData.cartData as Record<string,number>
 
     if (cartData[req.body.itemId] > 0) {
       cartData[req.body.itemId] -= 1;
@@ -67,10 +71,14 @@ const removeFromCart = async (req, res) => {
 };
 
 // Fetch user cart data
-const getCart = async (req, res) => {
+const getCart = async (req : Request, res : Response) => {
   try {
     let userData = await userModel.findById(req.body.userId);
-    let cartData = await userData.cartData;
+    if (!userData) {
+      res.json({ success: false, message: "User not found" });
+      return;
+    }
+    let cartData = userData.cartData as Record<string,number>
 
     res.json({ success: true, cartData });
   } catch (error) {
