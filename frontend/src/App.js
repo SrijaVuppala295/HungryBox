@@ -9,7 +9,7 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 import Verify from "./pages/Verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import ContactUs from "./pages/ContactUs/ContactUs";
-import { Subscription } from "./pages/Subscription/Subscription";
+import  Subscription  from "./pages/Subscription/Subscription";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
