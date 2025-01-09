@@ -7,6 +7,7 @@ import axios from "axios";
 const LoginPopup = ({ setShowLogin }) => {
   const { url, setToken } = useContext(StoreContext);
   const [currentState, setCurrentState] = useState("Login");
+  const [is2faopen, setIs2faopen] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -23,7 +24,7 @@ const LoginPopup = ({ setShowLogin }) => {
   const handleLogin = async () => {
     try {
       // Clear cookies before login
-      document.cookie.split(";").forEach(cookie => {
+      document.cookie.split(";").forEach((cookie) => {
         document.cookie = cookie
           .replace(/^ +/, "")
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
@@ -51,13 +52,14 @@ const LoginPopup = ({ setShowLogin }) => {
 
   const onLoginOrSignUp = async (event) => {
     event.preventDefault();
-    const endpoint = currentState === "Login" ? "/api/user/login" : "/api/user/register";
+    const endpoint =
+      currentState === "Login" ? "/api/user/login" : "/api/user/register";
     const newUrl = `${url}${endpoint}`;
 
     try {
       // Clear any existing session data
       sessionStorage.clear();
-      document.cookie.split(";").forEach(cookie => {
+      document.cookie.split(";").forEach((cookie) => {
         document.cookie = cookie
           .replace(/^ +/, "")
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
@@ -70,6 +72,11 @@ const LoginPopup = ({ setShowLogin }) => {
         sessionStorage.setItem("token", newToken);
         setToken(newToken); // This will trigger navbar update
         setShowLogin(false);
+
+        // If currentState is "Sign Up", then redirect to two factor auth page
+        if (currentState === "Sign Up") {
+          setIs2faopen(true);
+        }
       } else {
         alert(response.data.message);
       }
@@ -84,7 +91,9 @@ const LoginPopup = ({ setShowLogin }) => {
     const forgotPasswordUrl = `${url}/api/user/forgot-password`;
 
     try {
-      const response = await axios.post(forgotPasswordUrl, { email: data.email });
+      const response = await axios.post(forgotPasswordUrl, {
+        email: data.email,
+      });
       if (response.data.success) {
         alert("Password reset link has been sent to your email.");
         setCurrentState("Reset Password");
@@ -107,7 +116,9 @@ const LoginPopup = ({ setShowLogin }) => {
         newPassword: data.newPassword,
       });
       if (response.data.success) {
-        alert("Password reset successfully. You can now log in with your new password.");
+        alert(
+          "Password reset successfully. You can now log in with your new password."
+        );
         setCurrentState("Login");
       } else {
         alert(response.data.message);
@@ -235,11 +246,16 @@ const LoginPopup = ({ setShowLogin }) => {
           </p>
         ) : (
           <p>
-            Back to{" "}
-            <span onClick={() => setCurrentState("Login")}>Login</span>
+            Back to <span onClick={() => setCurrentState("Login")}>Login</span>
           </p>
         )}
       </form>
+
+      {is2faopen && (
+        <div>
+          <TwoFactorAuth open={is2faopen} />
+        </div>
+      )}
     </div>
   );
 };
