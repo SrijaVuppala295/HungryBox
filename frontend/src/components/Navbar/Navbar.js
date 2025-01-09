@@ -23,7 +23,7 @@ const Navbar = ({ setShowLogin }) => {
   }, [setToken, navigate]);
 
   useEffect(() => {
-    if (!token) {
+    if (!token && window.location.pathname !== '/subscription') { // this allows the subscription page to be opened without logging in
       navigate("/");
     }
   }, [token, navigate]);
