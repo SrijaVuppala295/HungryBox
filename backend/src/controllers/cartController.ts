@@ -1,9 +1,16 @@
+import { Request, Response } from "express";
 import userModel from "../models/userModel.js";
+import foodModel from "../models/foodModel.js";
+
 
 // Add items to user cart
-const addToCart = async (req, res) => {
+const addToCart = async (req : Request, res : Response) => {
   try {
     const userData = await userModel.findById(req.body.userId);
+    if (!userData) {
+      res.json({ success: false, message: "User not found" });
+      return;
+    }
     const cartData = userData.cartData;
 
     const foodItem = await foodModel.findById(req.body.itemId);
