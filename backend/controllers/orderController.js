@@ -1,15 +1,19 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
-import Stripe from "stripe";
+import Razorpay from "razorpay";
 import dotenv from "dotenv";
+import crypto from "crypto";
+import mongoose from "mongoose";
 
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_SECRET_KEY,
+});
 
 // Placing User Order from Frontend
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://hungrybox-frontend.onrender.com";
 
   try {
     const newOrder = new orderModel({
@@ -22,60 +26,59 @@ const placeOrder = async (req, res) => {
     await newOrder.save();
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
-    const line_items = req.body.items.map((item) => ({
-      price_data: {
-        currency: "INR",
-        product_data: {
-          name: item.name,
-        },
+    const totalAmount = req.body.amount * 100; // Convert to paise
+    const options = {
+      amount: totalAmount,
+      currency: "INR",
+      receipt: newOrder._id.toString(),
+    };
 
-        unit_amount: item.price * 100 * 80,
-      },
+    const order = await razorpay.orders.create(options);
 
-      quantity: item.quantity,
-    }));
-
-    line_items.push({
-      price_data: {
-        currency: "INR",
-        product_data: {
-          name: "Delivery Charges",
-        },
-
-        unit_amount: 2 * 100 * 80,
-      },
-      quantity: 1,
+    res.json({
+      success: true,
+      order_id: order.id,
+      amount: totalAmount,
+      key_id: process.env.RAZORPAY_KEY_ID,
+      mongo_order_id: newOrder._id, 
     });
-
-    const session = await stripe.checkout.sessions.create({
-      line_items: line_items,
-      mode: "payment",
-      success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
-      cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
-    });
-
-    res.json({ success: true, session_url: session.url });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.error(error);
+    res.json({ success: false, message: "Error creating order" });
   }
 };
 
 const verifyOrder = async (req, res) => {
-  console.log('Verify order endpoint hit');
-  const { orderId, success } = req.body;
-  
   try {
-    if (success == "true") {
-      await orderModel.findByIdAndUpdate(orderId, { payment: true });
-      res.json({ success: true, message: "Paid" });
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
+
+    // Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(orderId)) {
+      return res.json({ success: false, message: "Invalid order ID" });
+    }
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature === razorpay_signature) {
+      await orderModel.findByIdAndUpdate(orderId, {
+        $set: {
+          payment: true,
+          razorpay_order_id,
+          razorpay_payment_id,
+          razorpay_signature,
+        },
+      });
+      res.json({ success: true, message: "Payment verified successfully" });
     } else {
-      await orderModel.findByIdAndDelete(orderId);
-      res.json({ success: false, message: "Not Paid" });
+      res.json({ success: false, message: "Payment verification failed" });
     }
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.error(error);
+    res.json({ success: false, message: "Error verifying payment" });
   }
 };
 
