@@ -14,7 +14,10 @@ const addToCart = async (req : Request, res : Response) => {
     const cartData = userData.cartData;
 
     const foodItem = await foodModel.findById(req.body.itemId);
-
+    if (!foodItem) {
+      res.json({ success: false, message: "Food item not found" });
+      return;
+    }
     // Check subscription
     if (!userData.subscription) {
       const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
@@ -27,6 +30,7 @@ const addToCart = async (req : Request, res : Response) => {
           success: false,
           message: `Non-subscribers can only order meals available for ${currentDay} ${currentSlot}.`,
         });
+        return;
       }
     }
 
