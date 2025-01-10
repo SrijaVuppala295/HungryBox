@@ -34,3 +34,35 @@ a {
     opacity: 1;
   }
 }
+
+#scrollBtn {
+  width: 60px; /* Set width */
+  height: 60px; /* Set height equal to width for a perfect circle */
+  background-color: #007bff; /* Background color */
+  color: #ffffff; /* Icon color */
+  border: none; /* Remove borders */
+  border-radius: 50%; /* Make it circular */
+  position: fixed;
+  bottom: 20px; /* Position from the bottom */
+  right: 20px; /* Position from the right */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better styling */
+  cursor: pointer;
+  z-index: 1000; /* Ensure it stays on top */
+  opacity: 0; /* Start as invisible */
+  visibility: hidden; /* Start as hidden */
+  transition: opacity 0.3s, visibility 0.3s, transform 0.2s, background-color 0.2s; /* Smooth transitions */
+}
+
+#scrollBtn:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: scale(1.1); /* Slightly enlarge the button on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+#scrollBtn.show {
+  opacity: 1; /* Make visible */
+  visibility: visible; /* Make visible */
+}

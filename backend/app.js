@@ -1,0 +1,9 @@
+// ...existing code...
+
+import userRoutes from './routes/userRoutes.js';
+
+// ...existing code...
+
+app.use('/api', userRoutes);
+
+// ...existing code...

@@ -3,6 +3,7 @@ import {
   addFood,
   listFood,
   removeFood,
+  addReview,
 } from "../controllers/foodController.js";
 import multer from "multer";
 
@@ -21,4 +22,6 @@ const upload = multer({ storage: storage });
 foodRouter.post("/add", upload.single("image"), addFood);
 foodRouter.get("/list", listFood);
 foodRouter.post("/remove", removeFood);
+foodRouter.post('/addReview', addReview); 
+
 export default foodRouter;

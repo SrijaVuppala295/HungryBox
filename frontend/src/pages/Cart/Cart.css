@@ -1,5 +1,49 @@
+:root {
+  --cart-bg: #1a1a1a;
+  --cart-text: #ffffff; 
+  --cart-border: #e2e2e2;
+  --cart-button-bg: tomato;
+  --cart-button-text: #ffffff;
+  --cart-promo-bg: #eaeaea;
+  --cart-input-bg: transparent;
+  --cart-input-border: none; 
+  --cart-bg-light: #ffffff;
+  --cart-text-light: #000000;
+  --cart-border-light: #d1d1d1;
+  --cart-button-bg-light: #ff4500;
+  --cart-button-text-light: #ffffff;
+  --cart-promo-bg-light: #f5f5f5;
+  --cart-input-bg-light: #ffffff;
+  --cart-input-border-light: 1px solid #ccc;
+}
+
+[data-theme="dark"] {
+  --cart-bg: #121212;
+  --cart-text: #ffffff;
+  --cart-border: #e2e2e2;
+  --cart-button-bg: tomato;
+  --cart-button-text: #ffffff;
+  --cart-promo-bg: #eaeaea;
+  --cart-input-bg: transparent;
+  --cart-input-border: none;
+}
+
+[data-theme="light"] {
+  --cart-bg: var(--cart-bg-light);
+  --cart-text: var(--cart-text-light);
+  --cart-border: var(--cart-border-light);
+  --cart-button-bg: var(--cart-button-bg-light);
+  --cart-button-text: var(--cart-button-text-light);
+  --cart-promo-bg: var(--cart-promo-bg-light);
+  --cart-input-bg: var(--cart-input-bg-light);
+  --cart-input-border: var(--cart-input-border-light);
+}
+
 .cart {
-  margin-top: 100px;
+  margin-top: 190px;
+  margin-bottom: 190px;
+  background-color: var(--cart-bg);
+  color: var(--cart-text);
 }
 
 .cart-items-title {
@@ -50,16 +94,16 @@
   color: black;
 }
 
-.cart-total-details>b{
-  color: whitesmoke;
+.cart-total-details > b {
+  color: var(--cart-text);
 }
 
 .cart-total hr {
   margin: 10px 0;
 }
 
-.cart-total>h2{
-  color: white;
+.cart-total > h2 {
+  color: var(--cart-text);
 }
 
 .cart-total button {
@@ -71,6 +115,10 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 15px;
+}
+
+.cart-total button:hover {
+  opacity: 0.9;
 }
 
 .cart-promo {
@@ -87,16 +135,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #eaeaea;
+  background-color: var(--cart-promo-bg);
   border-radius: 4px;
   width: 350px;
 }
 
 .cart-promo-input input {
-  background: transparent;
-  border: none;
+  background: var(--cart-input-bg);
+  border: var(--cart-input-border);
   outline: none;
   padding-left: 10px;
+  color: var(--cart-text);
+}
+
+.cart-promo-input input::placeholder {
+  color: gray;
 }
 
 .cart-promo-input button {
@@ -104,7 +157,7 @@
   padding: 12px 5px;
   background-color: black;
   border: none;
-  color: #fff;
+  color: var(--cart-button-text);
   border-radius: 4px;
 }
 

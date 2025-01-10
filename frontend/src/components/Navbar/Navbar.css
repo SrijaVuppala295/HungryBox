@@ -1,3 +1,49 @@
+:root {
+  --navbar-bg: black;
+  --navbar-text: white;
+  --navbar-hover-bg: #ff5722;
+  --navbar-dropdown-bg: white;
+  --navbar-dropdown-text: #333;
+  --navbar-auth-bg: white;
+  --navbar-auth-text: #ff7043;
+  --navbar-auth-hover-bg: #ff5722;
+  --navbar-auth-hover-text: white;
+
+  --navbar-bg-light: white;
+  --navbar-text-light: black;
+  --navbar-hover-bg-light: #ff7043;
+  --navbar-dropdown-bg-light: #f9f9f9;
+  --navbar-dropdown-text-light: #000;
+  --navbar-auth-bg-light: #ff7043;
+  --navbar-auth-text-light: white;
+  --navbar-auth-hover-bg-light: black;
+  --navbar-auth-hover-text-light: white;
+}
+
+[data-theme="dark"] {
+  --navbar-bg: black;
+  --navbar-text: white;
+  --navbar-hover-bg: #ff5722;
+  --navbar-dropdown-bg: white;
+  --navbar-dropdown-text: #333;
+  --navbar-auth-bg: white;
+  --navbar-auth-text: #ff7043;
+  --navbar-auth-hover-bg: #ff5722;
+  --navbar-auth-hover-text: white;
+}
+
+[data-theme="light"] {
+  --navbar-bg: var(--navbar-bg-light);
+  --navbar-text: var(--navbar-text-light);
+  --navbar-hover-bg: var(--navbar-hover-bg-light);
+  --navbar-dropdown-bg: var(--navbar-dropdown-bg-light);
+  --navbar-dropdown-text: var(--navbar-dropdown-text-light);
+  --navbar-auth-bg: var(--navbar-auth-bg-light);
+  --navbar-auth-text: var(--navbar-auth-text-light);
+  --navbar-auth-hover-bg: var(--navbar-auth-hover-bg-light);
+  --navbar-auth-hover-text: var(--navbar-auth-hover-text-light);
+}
+
 .navbar {
   padding: 10px 0;
   display: flex;
@@ -56,7 +102,7 @@
 .navbar-menu a,
 .navbar-menu .active {
   text-decoration: none;
-  color: white;
+  color: var(--navbar-text);
   font-size: 16px;
   padding: 8px 12px;
   border-radius: 5px;
@@ -64,7 +110,7 @@
 }
 
 .navbar-menu a:hover {
-  background-color: #ff5722;
+  background-color: var(--navbar-hover-bg);
 }
 
 .navbar-right {
@@ -125,22 +171,22 @@
 }
 
 .auth-button:hover {
-  background: #ff5722;
-  color: white;
+  background: var(--navbar-auth-hover-bg);
+  color: var(--navbar-auth-hover-text);
 }
 
 .menu-toggle {
   background: none;
   border: none;
   font-size: 24px;
-  color: white;
+  color: var(--navbar-text);
   display: none;
   cursor: pointer;
 }
 
 .navbar-menu.open {
   flex-direction: column;
-  background: #ff7043;
+  background: var(--navbar-hover-bg);
   position: absolute;
   top: 100px;
   right: 10px;

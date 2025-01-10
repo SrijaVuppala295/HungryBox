@@ -9,6 +9,7 @@
 }
 
 .header-content {
+  color: white;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -20,11 +21,14 @@
   animation: fadeIn 3s ease-in-out;
 }
 
-
-
 .header-title {
-=======
-.header-content span{
+  font-weight: 500;
+  color: #fff; /* White text for better contrast */
+  font-size: max(4.5vw, 22px);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Adding a shadow for readability */
+}
+
+.header-content span {
   color: rgb(241, 39, 39);
   font-size: 60px;
   animation: glow 1.5s ease-in-out infinite alternate;
@@ -34,7 +38,6 @@
   from {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff;
   }
-  
   to {
     text-shadow: 0 0 20px #fff, 0 0 30px #ffa94dbf, 0 0 40px #ffa94dbf, 0 0 50px #ffa94dbf, 0 0 60px #ffa94dbf, 0 0 70px #ffa94dbf, 0 0 80px #ffa94dbf;
   }
@@ -67,6 +70,9 @@
   color: #fff;
   font-weight: 500;
   font-size: 1.3vw;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  opacity: 0; /* Initially hidden for animation */
+  animation: fadeIn 2s 1.5s forwards; /* Delayed fade-in for description */
 }
 
 @media (max-width: 1050px) {

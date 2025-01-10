@@ -1,25 +1,63 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 
 const Navbar = ({ setShowLogin }) => {
+  const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
   const [menu, setMenu] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
-
+  const [isVisible, setIsVisible] = useState(true); // Track navbar visibility
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken("");
+  const logout = useCallback(() => {
+    sessionStorage.clear();
+    document.cookie.split(";").forEach(cookie => {
+      document.cookie = cookie
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+    setToken(null);
     navigate("/");
-  };
+  }, [setToken, navigate]);
+
+  useEffect(() => {
+    if (!token && window.location.pathname !== '/subscription') { // this allows the subscription page to be opened without logging in
+      navigate("/");
+    }
+  }, [token, navigate]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.clear();
+      setToken(null);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [setToken]);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (window.scrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      } else if (window.scrollY > lastScrollY) {
+        // Scrolling down
+        setIsVisible(false);
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="navbar">
+    <div className={`navbar ${isVisible ? "visible" : "hidden"}`}>
       <div className="navbar-left">
         <Link to="/">
           <img src={assets.logo} alt="Logo" className="logo" />
@@ -74,16 +112,21 @@ const Navbar = ({ setShowLogin }) => {
 
         {!token ? (
           <button onClick={() => setShowLogin(true)} className="auth-button">
-            Sign Up
+            Login
           </button>
         ) : (
           <div className="navbar-profile">
             <img src={assets.profile_icon} alt="Profile" />
-
             <ul className="nav-profile-dropdown">
-              <li onClick={() => navigate("/myorders")}>Orders</li>
+              <li onClick={() => navigate("/myorders")}>
+                <img src={assets.bag_icon} alt="" />
+                <p>Orders</p>
+              </li>
               <hr />
-              <li onClick={logout}>Logout</li>
+              <li>
+                <img src={assets.logout_icon} alt="" />
+                <p onClick={logout}>Logout</p>
+              </li>
             </ul>
           </div>
         )}
