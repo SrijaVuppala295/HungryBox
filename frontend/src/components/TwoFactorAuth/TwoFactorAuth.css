@@ -1,0 +1,18 @@
+.two-factor-auth {
+    color: white;
+    box-shadow: 0 0 10px cyan;
+    background-color: #18181b;
+}
+
+.two-factor-auth .outer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    border: 2px solid pink;   
+}
+
+.two-factor-auth .outer-container p {
+    font-size: 1.5em;
+    margin-top: 20px;
+}

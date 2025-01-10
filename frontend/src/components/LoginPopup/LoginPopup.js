@@ -3,6 +3,7 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import TwoFactorAuth from "../TwoFactorAuth/TwoFactorAuth";
 
 const LoginPopup = ({ setShowLogin }) => {
   const { url, setToken } = useContext(StoreContext);
@@ -70,13 +71,13 @@ const LoginPopup = ({ setShowLogin }) => {
         const newToken = response.data.token;
         // Update session storage and context immediately
         sessionStorage.setItem("token", newToken);
-        setToken(newToken); // This will trigger navbar update
-        setShowLogin(false);
 
         // If currentState is "Sign Up", then redirect to two factor auth page
         if (currentState === "Sign Up") {
           setIs2faopen(true);
         }
+        setToken(newToken); // This will trigger navbar update
+        setShowLogin(false);
       } else {
         alert(response.data.message);
       }
