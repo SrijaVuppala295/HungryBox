@@ -1,20 +1,14 @@
 import { React, useState, useCallback } from "react";
-import "./Feedback.css";
 import axios from "axios";
-import { assets } from "../../assets/assets";
 import { FaStar } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";
-import FeedbackPopup from "../FeedbackPopup/FeedbackPopup";
+import { motion } from "framer-motion";
+import "./Feedback.css";
 
-function Feedback() {
-  // States to manage the rating
+const Feedback = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-
-  // State to manage the error
   const [error, setError] = useState("");
-
-  // State to manage the popup
   const [showpopup, setShowpopup] = useState(false);
 
   const handleClick = useCallback((star) => {
@@ -45,8 +39,6 @@ function Feedback() {
           "http://localhost:4000/api/feedback/add",
           data
         );
-        console.log(newfeedback);
-
         if (newfeedback.status === 200) {
           setShowpopup(true);
           setTimeout(() => {
@@ -54,7 +46,6 @@ function Feedback() {
           }, 2000);
         }
       } catch (error) {
-        console.log(error);
         setError("Something went wrong!");
       }
     },
@@ -62,68 +53,116 @@ function Feedback() {
   );
 
   return (
-    <div className="feedback">
-      <div className="left-container">
-        <h1>
-          <VscFeedback /> We value your Feedback!
-        </h1>
-        <span>
-          Your thoughts help us improve. Share your experience and suggestions
-          with us!
-        </span>
-        <div className="image-container">
-          <img src={assets.feedbackform} alt="feedback" />
+    <div className="feedback-container">
+      <div className="feedback-card">
+        <div className="feedback-content">
+          <div className="feedback-left">
+            <div className="feedback-header">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h1>
+                  <VscFeedback />
+                  We value your Feedback!
+                </h1>
+                <p>
+                  Your thoughts help us improve. Share your experience and suggestions with us!
+                </p>
+              </motion.div>
+              <div className="feedback-image">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <img
+                    src="https://lightoflove.com.ph/wp-content/uploads/2024/05/reasons-why-attend-food-tasting-chef-customers.jpg"
+                    alt="Feedback"
+                  />
+                </motion.div>
+              </div>
+            </div>
+          </div>
+
+          <div className="feedback-right">
+            <form onSubmit={handleSubmit} className="feedback-form">
+              <div className="form-group">
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Name"
+                  required
+                  pattern="^[a-zA-Z\s]{3,50}$"
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                />
+              </div>
+
+              <div className="form-group">
+                <textarea
+                  rows={6}
+                  name="feedback"
+                  placeholder="Your valuable feedback or suggestion here..."
+                  required
+                ></textarea>
+              </div>
+
+              <div className="rating-container">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <motion.button
+                    type="button"
+                    key={star}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => handleClick(star)}
+                    onMouseEnter={() => handleMouseEnter(star)}
+                    onMouseLeave={handleMouseLeave}
+                    className="star-button"
+                  >
+                    <FaStar
+                      className={`star ${star <= (hover || rating) ? "active" : ""}`}
+                    />
+                  </motion.button>
+                ))}
+              </div>
+
+              {error && <div className="error-message">{error}</div>}
+
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="submit-button"
+              >
+                Submit Feedback
+              </motion.button>
+            </form>
+          </div>
         </div>
       </div>
 
-      <div className="right-container">
-        <form onSubmit={handleSubmit} className="form-container">
-          <input
-            name="name"
-            type="text"
-            placeholder="Name"
-            required
-            pattern="^[a-zA-Z\s]{3,50}$"
-            title="Name must be 3 to 50 characters long and can include letters (a-z, A-Z) and spaces only."
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-            title="Please enter a valid email address"
-          />
-          <textarea
-            rows={8}
-            name="feedback"
-            type="text"
-            required
-            placeholder="Your valuable feedback or suggestion here...."
-          ></textarea>
-          <div className="rating-container">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <FaStar
-                key={star}
-                className={`star ${star <= (hover || rating) ? "active" : ""}`}
-                onClick={() => handleClick(star)}
-                onMouseEnter={() => handleMouseEnter(star)}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  color: star <= rating ? "yellow" : "white",
-                }}
-              />
-            ))}
-          </div>
-          {error && <p className="error">{error}</p>}
-          <button type="submit">SUBMIT FEEDBACK</button>
-        </form>
-      </div>
-
-      {showpopup && <FeedbackPopup />}
+      {showpopup && (
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          className="feedback-popup"
+        >
+          Thank you for your feedback!
+        </motion.div>
+      )}
     </div>
   );
-}
+};
 
 export default Feedback;
