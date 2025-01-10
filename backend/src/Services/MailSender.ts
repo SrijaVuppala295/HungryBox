@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-
-const sendMail = async (req, res) => {
+import { Request, Response } from "express";
+const sendMail = async (req : Request, res : Response) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     secure: true,

@@ -4,28 +4,31 @@ import bcrypt from "bcryptjs";
 import validator from "validator";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
-
+import { Request, Response } from "express";
 // Utility function to create JWT token
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+const createToken = (id: string) => {
+  const JWT_SECRET = process.env.JWT_SECRET as string;
+  return jwt.sign({ id },JWT_SECRET, { expiresIn: "1h" });
 };
 
 // Login User
-const loginUser = async (req, res) => {
+const loginUser = async (req : Request, res : Response) => {
   const { email, password } = req.body;
 
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User doesn't exist" });
+      res.status(404).json({ success: false, message: "User doesn't exist" });
+      return
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Invalid Credentials" });
+      res.status(401).json({ success: false, message: "Invalid Credentials" });
+      return
     }
 
-    const token = createToken(user._id);
+    const token = createToken((user._id as string));
     res.json({ success: true, token });
   } catch (error) {
     console.error(error);
@@ -34,31 +37,34 @@ const loginUser = async (req, res) => {
 };
 
 // Register User
-const registerUser = async (req, res) => {
+const registerUser = async (req : Request, res : Response) => {
   const { name, email, password } = req.body;
 
   try {
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res.status(409).json({ success: false, message: "User already exists" });
+      res.status(409).json({ success: false, message: "User already exists" });
+      return
     }
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Invalid email format" });
+      res.status(400).json({ success: false, message: "Invalid email format" });
+      return
     }
 
     if (password.length < 8) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Password must be at least 8 characters long",
       });
+      return
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new userModel({ name, email, password: hashedPassword });
 
     const user = await newUser.save();
-    const token = createToken(user._id);
+    const token = createToken((user._id as string));
     res.json({ success: true, token });
   } catch (error) {
     console.error(error);
@@ -67,20 +73,21 @@ const registerUser = async (req, res) => {
 };
 
 // Forgot Password
-const forgotPassword = async (req, res) => {
+const forgotPassword = async (req : Request, res : Response) => {
   const { email } = req.body;
 
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      res.status(404).json({ success: false, message: "User not found" });
+      return
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
     const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
     user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
     await user.save();
 
     const resetUrl = `${req.protocol}://${req.get(
@@ -115,7 +122,7 @@ const forgotPassword = async (req, res) => {
 };
 
 // Reset Password
-const resetPassword = async (req, res) => {
+const resetPassword = async (req : Request, res : Response) => {
   const { token } = req.params;
   const { password } = req.body;
 
@@ -127,11 +134,13 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ success: false, message: "Invalid or expired token" });
+      res.status(400).json({ success: false, message: "Invalid or expired token" });
+      return
     }
 
     if (password.length < 8) {
-      return res.status(400).json({ success: false, message: "Password too short" });
+      res.status(400).json({ success: false, message: "Password too short" });
+      return
     }
 
     user.password = await bcrypt.hash(password, 10);

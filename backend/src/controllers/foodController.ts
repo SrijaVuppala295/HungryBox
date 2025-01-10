@@ -1,11 +1,12 @@
-import foodModel from "../models/foodModel.js";
+import foodModel, { IReview } from "../models/foodModel.js";
 import fs from "fs";
-
-
+import { Request, Response } from "express"
+import { IFood } from "../models/foodModel.js";
+import mongoose from "mongoose";
 // add food item
 
-const addFood = async (req, res) => {
-  let image_filename = `${req.file.filename}`;
+const addFood = async (req : Request, res : Response) => {
+  let image_filename = `${req.file?.filename}`;
 
   const food = new foodModel({
     name: req.body.name,
@@ -28,7 +29,7 @@ const addFood = async (req, res) => {
 
 
 // All Food List
-const listFood = async (req, res) => {
+const listFood = async (req : Request, res: Response) => {
   try {
     const foods = await foodModel.find({});
     res.json({ success: true, data: foods });
@@ -39,13 +40,14 @@ const listFood = async (req, res) => {
 };
 
 // Remove Food Item
-const removeFood = async (req, res) => {
+const removeFood = async (req : Request, res : Response) : Promise<void> => {
   try {
     // Find the food item to be deleted
     const food = await foodModel.findById(req.body.id);
 
     if (!food) {
-      return res.json({ success: false, message: "Food item not found" });
+      res.json({ success: false, message: "Food item not found" });
+      return
     }
 
     // Delete image from uploads folder
@@ -63,18 +65,24 @@ const removeFood = async (req, res) => {
   }
 };
 
-const addReview = async (req, res) => {
+const addReview = async (req : Request, res : Response) => {
   try {
-    const { foodId, userId, rating, comment } = req.body;
+    const { foodId, userId, rating, comment } : { foodId: string; userId: string; rating: number; comment?: string }  = req.body;
 
     // Find food item
-    const food = await foodModel.findById(foodId);
+    const food : IFood | null= await foodModel.findById(foodId);
     if (!food) {
-      return res.status(404).json({ success: false, message: "Food item not found" });
+      res.status(404).json({ success: false, message: "Food item not found" });
+      return
     }
+    //@ts-ignore
+    const review: IReview = {
+      userId,
+      rating,
+      comment,
+    };
 
-    // Add review to the food item
-    food.reviews.push({ userId, rating, comment });
+    food.reviews.push(review);
 
     // Recalculate the average rating
     const totalRatings = food.reviews.reduce((sum, review) => sum + review.rating, 0);

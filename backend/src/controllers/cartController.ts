@@ -1,14 +1,23 @@
+import { Request, Response } from "express";
 import userModel from "../models/userModel.js";
 import foodModel from "../models/foodModel.js";
 
+
 // Add items to user cart
-const addToCart = async (req, res) => {
+const addToCart = async (req : Request, res : Response) => {
   try {
     const userData = await userModel.findById(req.body.userId);
-    const cartData = userData.cartData;
+    if (!userData) {
+      res.json({ success: false, message: "User not found" });
+      return;
+    }
+    const cartData  = userData.cartData as Record<string,number>
 
     const foodItem = await foodModel.findById(req.body.itemId);
-
+    if (!foodItem) {
+      res.json({ success: false, message: "Food item not found" });
+      return;
+    }
     // Check subscription
     if (!userData.subscription) {
       const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
@@ -17,10 +26,11 @@ const addToCart = async (req, res) => {
 
       // Validate non-subscriber's order
       if (foodItem.day !== currentDay || foodItem.timeSlot !== currentSlot) {
-        return res.json({
+        res.json({
           success: false,
           message: `Non-subscribers can only order meals available for ${currentDay} ${currentSlot}.`,
         });
+        return;
       }
     }
 
@@ -39,10 +49,14 @@ const addToCart = async (req, res) => {
   }
 };
 // Remove items from user cart
-const removeFromCart = async (req, res) => {
+const removeFromCart = async (req : Request, res : Response) => {
   try {
     let userData = await userModel.findById(req.body.userId);
-    let cartData = await userData.cartData;
+    if (!userData) {
+      res.json({ success: false, message: "User not found" });
+      return;
+    }
+    let cartData = userData.cartData as Record<string,number>
 
     if (cartData[req.body.itemId] > 0) {
       cartData[req.body.itemId] -= 1;
@@ -57,10 +71,14 @@ const removeFromCart = async (req, res) => {
 };
 
 // Fetch user cart data
-const getCart = async (req, res) => {
+const getCart = async (req : Request, res : Response) => {
   try {
     let userData = await userModel.findById(req.body.userId);
-    let cartData = await userData.cartData;
+    if (!userData) {
+      res.json({ success: false, message: "User not found" });
+      return;
+    }
+    let cartData = userData.cartData as Record<string,number>
 
     res.json({ success: true, cartData });
   } catch (error) {
