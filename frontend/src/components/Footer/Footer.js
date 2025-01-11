@@ -19,13 +19,13 @@ const Footer = () => {
               Craving something delicious? Fast. Fresh. Reliable.
             </p>
             <div className="social-links">
-              <a href="https://pro.twitter.com/i/flow/login" className="social-link">
+              <a href="#" className="social-link">
                 <img src={assets.twitter_icon} alt="Twitter" />
               </a>
-              <a href="https://www.facebook.com/login.php/" className="social-link">
+              <a href="#" className="social-link">
                 <img src={assets.facebook_icon} alt="Facebook" />
               </a>
-              <a href="https://in.linkedin.com/" className="social-link">
+              <a href="#" className="social-link">
                 <img src={assets.linkedin_icon} alt="LinkedIn" />
               </a>
             </div>

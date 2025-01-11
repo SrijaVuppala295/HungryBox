@@ -16,7 +16,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 import ThemeToggle from "./components/Navbar/ThemeToggle";
 
 
-
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
 
