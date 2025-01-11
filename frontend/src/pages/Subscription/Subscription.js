@@ -1,13 +1,12 @@
-import React,{useState} from 'react';
-import "./Subscription.css";
+import React, { useState } from 'react';
+import './Subscription.css'
 
-function Subscription() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
+const Subscription = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('');
   const [planDetails, setPlanDetails] = useState('');
   const [subscriptionMessage, setSubscriptionMessage] = useState('');
 
-  // Define the subscription benefits for each plan
   const plans = {
     weekly: {
       price: "$5",
@@ -42,71 +41,70 @@ function Subscription() {
     }
   };
 
-  // Open the modal and set the plan details
   const handleSubscribe = (plan) => {
     setSelectedPlan(plan);
     setPlanDetails(plans[plan]);
-    setIsModalOpen(true); // Show the modal
+    setIsModalOpen(true);
   };
 
-  // Handle the subscription and show the success message
   const handleConfirmSubscription = () => {
-    setSubscriptionMessage(`Yey! You subscribed to the ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} plan!`); // Set success message
-  };
-
-  // Close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
+    setSubscriptionMessage(`Successfully subscribed to ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} plan!`);
   };
 
   return (
     <div className="subscription-container">
-      <div className="subscription-box" onClick={() => handleSubscribe('weekly')}>
-        <h3>Weekly</h3>
-        <p className="price">{plans.weekly.price}</p>
-        <p className="period">{plans.weekly.period}</p>
-        <button className="subscribe-btn">Subscribe</button>
-      </div>
-
-      <div className="subscription-box" onClick={() => handleSubscribe('monthly')}>
-        <h3>Monthly</h3>
-        <p className="price">{plans.monthly.price}</p>
-        <p className="period">{plans.monthly.period}</p>
-        <button className="subscribe-btn">Subscribe</button>
-      </div>
-
-      <div className="subscription-box" onClick={() => handleSubscribe('yearly')}>
-        <h3>Yearly</h3>
-        <p className="price">{plans.yearly.price}</p>
-        <p className="period">{plans.yearly.period}</p>
-        <button className="subscribe-btn">Subscribe</button>
-      </div>
-
-      {/* Modal Pop-up */}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>{selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan</h3>
-            <p>Price: {planDetails.price}</p>
-            <p>{planDetails.period}</p>
-            <h4>Benefits:</h4>
-            <ul>
-              {planDetails.benefits.map((benefit, index) => (
+      {Object.entries(plans).map(([plan, details]) => (
+        <div key={plan} className={`subscription-card ${plan}-plan`}>
+          <div className="card-content">
+            <h3>{plan.charAt(0).toUpperCase() + plan.slice(1)}</h3>
+            <div className="price-container">
+              <span className="price">{details.price}</span>
+              <span className="period">{details.period}</span>
+            </div>
+            <ul className="benefits-list">
+              {details.benefits.map((benefit, index) => (
                 <li key={index}>{benefit}</li>
               ))}
             </ul>
-            <br></br>
-            <button className="subscribe-btn" onClick={handleConfirmSubscription}>Subscribe Now!</button><br></br><br></br>
-            <button className="close-btn" onClick={closeModal}>Close</button>
-            <div className="subscription-message">
-          <p>{subscriptionMessage}</p>
-        </div>
+            <button className="subscribe-button" onClick={() => handleSubscribe(plan)}>
+              Choose Plan
+            </button>
           </div>
-         
+        </div>
+      ))}
+
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan</h3>
+              <button className="close-button" onClick={() => setIsModalOpen(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              <div className="price-container">
+                <span className="price">{planDetails.price}</span>
+                <span className="period">{planDetails.period}</span>
+              </div>
+              <div className="benefits-container">
+                <h4>Plan Benefits</h4>
+                <ul>
+                  {planDetails.benefits.map((benefit, index) => (
+                    <li key={index}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+              {subscriptionMessage && (
+                <div className="success-message">{subscriptionMessage}</div>
+              )}
+              <button className="confirm-button" onClick={handleConfirmSubscription}>
+                Confirm Subscription
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Subscription;
