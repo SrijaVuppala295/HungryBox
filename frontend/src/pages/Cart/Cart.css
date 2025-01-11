@@ -50,13 +50,14 @@
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
   align-items: center;
-  color: gray;
-  font-size: max(1vw, 12px);
+  color: black;
+  font-size: 18px;
 }
 
 .cart-items-item {
   margin: 10px 0;
-  color: var(--cart-text);
+  color: #6F4E37;
+  font-weight: 300;
 }
 
 .cart-items-item img {
@@ -65,7 +66,7 @@
 
 .cart hr {
   height: 1px;
-  background-color: var(--cart-border);
+  background-color: rgb(239, 232, 232);
   border: none;
 }
 
@@ -90,7 +91,7 @@
 .cart-total-details {
   display: flex;
   justify-content: space-between;
-  color: gray;
+  color: black;
 }
 
 .cart-total-details > b {
@@ -107,12 +108,13 @@
 
 .cart-total button {
   border: none;
-  color: var(--cart-button-text);
-  background-color: var(--cart-button-bg);
+  color: #fff;
+  background-color: rgb(255, 38, 0);
   width: max(15vw, 200px);
   padding: 12px 0;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .cart-total button:hover {
@@ -124,7 +126,8 @@
 }
 
 .cart-promo p {
-  color: var(--cart-text);
+  color: black;
+  font-weight: bold;
 }
 
 .cart-promo-input {
@@ -134,6 +137,7 @@
   align-items: center;
   background-color: var(--cart-promo-bg);
   border-radius: 4px;
+  width: 350px;
 }
 
 .cart-promo-input input {
@@ -149,9 +153,9 @@
 }
 
 .cart-promo-input button {
-  width: max(10vw, 150px);
+  width: 90px;
   padding: 12px 5px;
-  background-color: #000;
+  background-color: black;
   border: none;
   color: var(--cart-button-text);
   border-radius: 4px;
