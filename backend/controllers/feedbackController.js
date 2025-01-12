@@ -1,5 +1,5 @@
 import Feedback from "../models/feedback.js";
-import sendMail from "../Services/MailSender.js";
+import { sendMail } from "../Services/MailSender.js";
 
 const feedbackController = async (req, res) => {
   const name = req.body.name;

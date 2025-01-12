@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import validator from "validator";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { sendOTPVerification, sendMail } from "../Services/MailSender.js";
 
 // Utility function to create JWT token
 const createToken = (id) => {
@@ -17,12 +18,16 @@ const loginUser = async (req, res) => {
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User doesn't exist" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User doesn't exist" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Invalid Credentials" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Credentials" });
     }
 
     const token = createToken(user._id);
@@ -40,11 +45,15 @@ const registerUser = async (req, res) => {
   try {
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res.status(409).json({ success: false, message: "User already exists" });
+      return res
+        .status(409)
+        .json({ success: false, message: "User already exists" });
     }
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Invalid email format" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email format" });
     }
 
     if (password.length < 8) {
@@ -58,7 +67,17 @@ const registerUser = async (req, res) => {
     const newUser = new userModel({ name, email, password: hashedPassword });
     const user = await newUser.save();
     const token = createToken(user._id);
-    res.json({ success: true, token });
+
+    const otp = await sendOTPVerification(user);
+    const sendingMail = await sendMail(req, res, otp);
+
+    if (sendingMail.success) {
+      res.status(201).json({
+        message: "User registered successfully and otp sent successfully!!",
+        userId: user.id,
+        token: token,
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -72,11 +91,16 @@ const forgotPassword = async (req, res) => {
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
 
     user.resetPasswordToken = hashedToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
@@ -126,11 +150,15 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ success: false, message: "Invalid or expired token" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid or expired token" });
     }
 
     if (password.length < 8) {
-      return res.status(400).json({ success: false, message: "Password too short" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Password too short" });
     }
 
     user.password = await bcrypt.hash(password, 10);
