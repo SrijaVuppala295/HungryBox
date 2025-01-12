@@ -1,4 +1,22 @@
 import nodemailer from "nodemailer";
+import { userOTPVerifyModel } from "../models/UserOTPVerify.js";
+
+const sendOTPVerification = async (user) => {
+  try {
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    const createOTP = await userOTPVerifyModel.create({
+      userId: user._id,
+      otp: otp,
+      expiresAt: expiresAt,
+    });
+
+    return createOTP.otp;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const sendMail = async (req, res) => {
   const transporter = nodemailer.createTransport({
