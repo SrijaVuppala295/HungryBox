@@ -116,11 +116,17 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
+  const handle2FaVerify = async (OTPcode) => {};
+
   return (
     <div className="login-popup">
       {is2faopen ? (
         <div>
-          <TwoFactorAuth open={is2faopen} onSuccess={on2FaSuccess} />
+          <TwoFactorAuth
+            open={is2faopen}
+            onSuccess={on2FaSuccess}
+            onVerify={handle2FaVerify}
+          />
         </div>
       ) : (
         <>

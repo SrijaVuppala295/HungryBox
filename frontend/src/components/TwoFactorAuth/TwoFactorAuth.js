@@ -3,7 +3,7 @@ import "./TwoFactorAuth.css";
 import { assets } from "../../assets/assets";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-function TwoFactorAuth({ open }) {
+function TwoFactorAuth({ open, onVerify }) {
   const [error, setError] = useState("");
   const [code, setCode] = useState(["", "", "", ""]); // 4 digits for the code
   const inputRefs = useRef([]);
@@ -39,6 +39,21 @@ function TwoFactorAuth({ open }) {
     // Handle space
     if (e.key === " " && index < 3 && code[index] !== "") {
       inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleVerify = async () => {
+    const fullCode = code.join("");
+    try {
+      if (fullCode.length === 4) {
+        await onVerify(fullCode);
+      }
+      setCode(["", "", "", ""]);
+      setError("");
+    } catch (error) {
+      setError(`Please enter a valid 4 digit code.`);
+      console.error(error);
+      setCode(["", "", "", ""]);
     }
   };
 
@@ -78,7 +93,7 @@ function TwoFactorAuth({ open }) {
             />
           ))}
         </div>
-        <button>VERIFY</button>
+        <button onClick={handleVerify}>VERIFY</button>
         {error && (
           <p
             style={{
