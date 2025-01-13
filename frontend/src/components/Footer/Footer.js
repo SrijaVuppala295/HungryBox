@@ -6,58 +6,88 @@ import { assets } from "../../assets/assets";
 const Footer = () => {
   useEffect(() => {
     const currentYear = new Date().getFullYear();
-    document.getElementById('year').textContent = currentYear;
+    document.getElementById("year").textContent = currentYear;
   }, []);
 
   return (
     <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-content">
-          <div className="footer-brand">
-            <h2 className="company-name">Hungry Box</h2>
-            <p className="brand-desc">
+      <div className="footer__container">
+        {/* Footer Content */}
+        <div className="footer__content">
+          {/* Brand Section */}
+          <div className="footer__brand">
+            <h2 className="footer__company-name">Hungry Box</h2>
+            <p className="footer__brand-desc">
               Craving something delicious? Fast. Fresh. Reliable.
             </p>
-            <div className="social-links">
-              <a href="#" className="social-link">
-                <img src={assets.twitter_icon} alt="Twitter" />
+            <div className="footer__social-links">
+              <a href="#" className="footer__social-link">      
+                <i className="fa-brands fa-x-twitter"></i>
               </a>
-              <a href="#" className="social-link">
-                <img src={assets.facebook_icon} alt="Facebook" />
+              <a href="#" className="footer__social-link">
+              <i className="fa-brands fa-facebook"></i>
               </a>
-              <a href="#" className="social-link">
-                <img src={assets.linkedin_icon} alt="LinkedIn" />
+              <a href="#" className="footer__social-link">
+              <i className="fa-brands fa-linkedin"></i>
               </a>
             </div>
           </div>
 
-          <nav className="footer-nav">
-            <div className="nav-column">
-              <ul>
-                <li><Link to="/contactus">Contact Us</Link></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Features</a></li>
-              </ul>
-            </div>
-            <div className="nav-column">
-              <ul>
-                <li><a href="#">Career</a></li>
-                <li><a href="#">Terms & Policy</a></li>
-                <li><a href="#">Privacy</a></li>
-              </ul>
+          {/* Navigation Section */}
+          <nav className="footer__nav">
+            <div className="footer__nav-columns">
+              <div className="footer__nav-column">
+                <ul className="footer__nav-list">
+                  <li className="footer__nav-item">
+                    <Link to="/contactus" className="footer__nav-link">
+                      Contact Us
+                    </Link>
+                  </li>
+                  <li className="footer__nav-item">
+                    <a href="#" className="footer__nav-link">
+                      About
+                    </a>
+                  </li>
+                  <li className="footer__nav-item">
+                    <a href="#" className="footer__nav-link">
+                      Features
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="footer__nav-column">
+                <ul className="footer__nav-list">
+                  <li className="footer__nav-item">
+                    <a href="#" className="footer__nav-link">
+                      Career
+                    </a>
+                  </li>
+                  <li className="footer__nav-item">
+                    <a href="#" className="footer__nav-link">
+                      Terms & Policy
+                    </a>
+                  </li>
+                  <li className="footer__nav-item">
+                    <a href="#" className="footer__nav-link">
+                      Privacy
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </nav>
 
-          <div className="footer-newsletter">
-            <h3 className="footer-title">Newsletter</h3>
-            <form className="newsletter-form">
-              <div className="input-group">
+          {/* Newsletter Section */}
+          <div className="footer__newsletter">
+            <h3 className="footer__newsletter-title">Newsletter</h3>
+            <form className="footer__newsletter-form">
+              <div className="footer__input-group">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="newsletter-input"
+                  className="footer__input"
                 />
-                <button type="submit" className="newsletter-button">
+                <button type="submit" className="footer__button">
                   Subscribe
                 </button>
               </div>
@@ -65,8 +95,11 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-bottom">
-          <p>© <span id="year"></span> Hungry Box, All Rights Reserved</p>
+        {/* Footer Bottom */}
+        <div className="footer__bottom">
+          <p className="footer__copyright">
+            © <span id="year"></span> Hungry Box, All Rights Reserved
+          </p>
         </div>
       </div>
     </footer>
