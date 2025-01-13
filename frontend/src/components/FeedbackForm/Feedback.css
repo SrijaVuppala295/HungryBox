@@ -125,6 +125,7 @@ textarea::placeholder {
   font-size: 20px;
   letter-spacing: 1px;
   cursor: pointer;
+  color: black;
 }
 
 /* Responsive Styles */
