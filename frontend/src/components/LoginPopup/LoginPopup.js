@@ -48,16 +48,12 @@ const LoginPopup = ({ setShowLogin }) => {
       });
 
       const response = await axios.post(newUrl, data);
-      if (response.data.success) {
-        // If currentState is "Sign Up", then redirect to two factor auth page
-        if (currentState === "Sign Up") {
-          setIs2faopen(true);
-          setPendingResponse(response.data);
-        } else {
-          handleTokenSetup(response.data);
-        }
+      // If currentState is "Sign Up", then redirect to two factor auth page
+      if (currentState === "Sign Up") {
+        setIs2faopen(true);
+        setPendingResponse(response.data);
       } else {
-        alert(response.data.message);
+        handleTokenSetup(response.data);
       }
     } catch (error) {
       console.error("Error during login or sign-up:", error);
@@ -70,6 +66,22 @@ const LoginPopup = ({ setShowLogin }) => {
     if (pendingResponse) {
       handleTokenSetup(pendingResponse);
       setPendingResponse(null);
+      setIs2faopen(false);
+    }
+  };
+
+  const handle2FaVerify = async (OTPcode) => {
+    try {
+      const verifyOTPResponse = await axios.post(
+        "http://localhost:4000/api/otpVerification/verifyOTP",
+        {
+          userId: pendingResponse.userId,
+          otp: OTPcode,
+        }
+      );
+      on2FaSuccess();
+    } catch (error) {
+      console.error("Error during 2FA verification:", error);
     }
   };
 
@@ -116,17 +128,11 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
-  const handle2FaVerify = async (OTPcode) => {};
-
   return (
     <div className="login-popup">
       {is2faopen ? (
         <div>
-          <TwoFactorAuth
-            open={is2faopen}
-            onSuccess={on2FaSuccess}
-            onVerify={handle2FaVerify}
-          />
+          <TwoFactorAuth open={is2faopen} onVerify={handle2FaVerify} />
         </div>
       ) : (
         <>

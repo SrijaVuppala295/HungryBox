@@ -71,13 +71,16 @@ const registerUser = async (req, res) => {
     const otp = await sendOTPVerification(user);
     const sendingMail = await sendMail(req, res, otp);
 
-    if (sendingMail.success) {
-      res.status(201).json({
-        message: "User registered successfully and otp sent successfully!!",
-        userId: user.id,
-        token: token,
-      });
+    if (!sendingMail) {
+      // Handle mail sending failure if needed
+      console.warn("Mail sending failed but user was registered");
     }
+    
+    return res.status(201).json({
+      message: "User registered successfully and otp sent successfully!!",
+      userId: user.id,
+      token: token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server Error" });

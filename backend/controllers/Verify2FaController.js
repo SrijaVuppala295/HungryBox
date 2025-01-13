@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import userOTPVerifyModel from "../models/UserOTPVerify.js";
 
 const verify2faController = async (req, res) => {
@@ -12,11 +11,9 @@ const verify2faController = async (req, res) => {
 
   try {
     const verifyOTP = await userOTPVerifyModel.findOne({
-      $where: {
-        otp: otp,
-        userId: userId,
-        expiresAt: { $gt: Date.now() },
-      },
+      otp: otp,
+      userId: userId,
+      expiresAt: { $gt: Date.now() }
     });
 
     // If OTP is found, then delete the OTP

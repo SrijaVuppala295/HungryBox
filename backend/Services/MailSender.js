@@ -126,6 +126,14 @@ const sendMail = async (req, res, otp) => {
 </html> 
       `,
     };
+
+    try {
+      await transporter.sendMail(receiver);
+      return Promise.resolve(true);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).json({ message: "Failed to send OTP email" });
+    }
   } else {
     const receiver = {
       from: process.env.SENDERS_MAIL,
@@ -222,14 +230,16 @@ const sendMail = async (req, res, otp) => {
           </html>
         `,
     };
-  }
 
-  try {
-    await transporter.sendMail(receiver);
-    return res.status(200).json({ message: "Feedback received successfully!" });
-  } catch (error) {
-    console.error("Error sending email:", error);
-    return res.status(500).json({ message: "Failed to send feedback email" });
+    try {
+      await transporter.sendMail(receiver);
+      return res
+        .status(200)
+        .json({ message: "Feedback received successfully!" });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).json({ message: "Failed to send feedback email" });
+    }
   }
 };
 
