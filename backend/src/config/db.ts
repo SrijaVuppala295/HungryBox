@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-const URI = process.env.MONGO_URI as string
+
 export const connectDB = async () => {
   try {
+    const URI = process.env.MONGO_URI as string
     await mongoose.connect(URI);
     console.log("DB Connected");
   } catch (error) {
