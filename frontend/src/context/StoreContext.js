@@ -8,7 +8,7 @@ const StoreContextProvider = (props) => {
   const [token, setToken] = useState(() => sessionStorage.getItem("token") || null);
   const [food_list, setFoodList] = useState([]);
 
-  const url = "http://localhost:4000";
+  const url = "https://hungrybox.onrender.com";
 
   // Add token validation function
   const validateToken = async (token) => {
