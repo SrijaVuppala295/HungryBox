@@ -46,3 +46,14 @@
 .navbar.dark .profile {
   filter: brightness(0.8);
 }
+
+.navbar .title {
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .navbar .title {
+    font-size: 1.5rem
+  }
+}

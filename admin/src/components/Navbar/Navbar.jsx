@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <div className={`navbar ${isDarkMode ? "dark" : "light"}`}>
       <img className="logo" src={assets.logo} alt="Logo" />
-      <img className="logo" src={assets.title} alt="Title" />
+      <p className="title">Welcome to HungryBox Admin Console</p>
       <img className="profile" src={assets.profile_image} alt="Profile" />
 
       {/* Dark/Light Mode Toggle Button */}

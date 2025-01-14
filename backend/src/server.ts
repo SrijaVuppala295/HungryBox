@@ -8,6 +8,7 @@ import orderRouter from "./routes/orderRoute.js";
 import feedbackRouter from "./routes/feedback.route.js";
 import otpVerificationRoutes from "./routes/OTPVefication.route.js";
 import "dotenv/config";
+import path from "path";
 
 // app config
 const app = express();
@@ -27,7 +28,7 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/otpVerification", otpVerificationRoutes);
-app.use("/images", express.static("uploads"));
+app.use("/images", express.static(path.join(path.resolve(), "src/uploads")));
 
 app.get("/", (req, res) => {
   res.send("API Working");
