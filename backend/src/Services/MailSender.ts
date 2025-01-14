@@ -19,7 +19,7 @@ const sendOTPVerification = async (user: any) => {
   }
 };
 
-const sendMail = async (req : Request, res : Response, otp: any) => {
+const sendMail = async (req: Request, res: Response, otp: any = null) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     secure: true,
