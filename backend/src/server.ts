@@ -7,7 +7,12 @@ import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import feedbackRouter from "./routes/feedback.route.js";
 import otpVerificationRoutes from "./routes/OTPVefication.route.js";
-import "dotenv/config";
+import dotenv from "dotenv";
+
+// loading envs
+dotenv.config({
+  path: "./.env",
+});
 
 // app config
 const app = express();
