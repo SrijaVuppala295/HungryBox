@@ -7,6 +7,7 @@ import menu_3 from "./menu_3.png";
 import menu_4 from "./menu_4.png";
 import menu_6 from "./menu_6.png";
 import menu_8 from "./menu_8.png";
+import twoFa from "./twoFa.svg";
 
 import food_1 from "./food_1.png";
 import food_2 from "./food_2.png";
@@ -60,6 +61,7 @@ import feedbackform from "./feedbackform.gif";
 
 export const assets = {
   logo,
+  twoFa,
   basket_icon,
   header_img,
   search_icon,
