@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import validator from "validator";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { sendOTPVerification, sendMail } from "../Services/MailSender.js";
 import { Request, Response } from "express";
 // Utility function to create JWT token
 const createToken = (id: string) => {
@@ -65,7 +66,20 @@ const registerUser = async (req : Request, res : Response) => {
 
     const user = await newUser.save();
     const token = createToken((user._id as string));
-    res.json({ success: true, token });
+
+    const otp = await sendOTPVerification(user);
+    const sendingMail = await sendMail(req, res, otp);
+
+    if (!sendingMail) {
+      // Handle mail sending failure if needed
+      console.warn("Mail sending failed but user was registered");
+    }
+    
+    return res.status(201).json({
+      message: "User registered successfully and otp sent successfully!!",
+      userId: user.id,
+      token: token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server Error" });
