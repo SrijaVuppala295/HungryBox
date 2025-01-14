@@ -20,35 +20,6 @@ const LoginPopup = ({ setShowLogin }) => {
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleLogin = async () => {
-    try {
-      // Clear cookies before login
-      document.cookie.split(";").forEach(cookie => {
-        document.cookie = cookie
-          .replace(/^ +/, "")
-          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-      });
-
-      const response = await axios.post(`${url}/api/login`, {
-        email: data.email,
-        password: data.password,
-      });
-
-      if (response.data.success) {
-        // Clear any existing token first
-        sessionStorage.removeItem("token");
-        // Set new token
-        const newToken = response.data.token;
-        sessionStorage.setItem("token", newToken);
-        setToken(newToken);
-        setShowLogin(false);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed. Please try again.");
-    }
-  };
-
   const onLoginOrSignUp = async (event) => {
     event.preventDefault();
     const endpoint = currentState === "Login" ? "/api/user/login" : "/api/user/register";
