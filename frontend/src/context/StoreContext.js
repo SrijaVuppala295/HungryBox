@@ -5,10 +5,12 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
-  const [token, setToken] = useState(() => sessionStorage.getItem("token") || null);
+  const [token, setToken] = useState(
+    () => sessionStorage.getItem("token") || null
+  );
   const [food_list, setFoodList] = useState([]);
 
-  const url = "https://hungrybox.onrender.com";
+  const url = process.env.REACT_APP_API_URL;
 
   // Add token validation function
   const validateToken = async (token) => {
@@ -55,11 +57,11 @@ const StoreContextProvider = (props) => {
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-  
+
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         let itemInfo = food_list.find((product) => product._id === item);
-  
+
         // Check if itemInfo exists before trying to access its price
         if (itemInfo) {
           totalAmount += itemInfo.price * cartItems[item];
@@ -68,10 +70,9 @@ const StoreContextProvider = (props) => {
         }
       }
     }
-  
+
     return totalAmount;
   };
-  
 
   const fetchFoodList = async () => {
     const response = await axios.get(url + "/api/food/list");
@@ -90,16 +91,16 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     async function loadData() {
       const savedToken = sessionStorage.getItem("token");
-      
+
       // Add beforeunload event listener
       const handleBeforeUnload = () => {
         sessionStorage.clear();
         setToken(null);
         setCartItems({});
       };
-      
-      window.addEventListener('beforeunload', handleBeforeUnload);
-      
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
       if (savedToken) {
         const isValid = await validateToken(savedToken);
         if (!isValid) {
@@ -113,8 +114,9 @@ const StoreContextProvider = (props) => {
       }
 
       await fetchFoodList();
-      
-      return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+
+      return () =>
+        window.removeEventListener("beforeunload", handleBeforeUnload);
     }
     loadData();
   }, []);
@@ -123,7 +125,7 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     const handlePageReload = () => {
       sessionStorage.clear();
-      document.cookie.split(";").forEach(cookie => {
+      document.cookie.split(";").forEach((cookie) => {
         document.cookie = cookie
           .replace(/^ +/, "")
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
@@ -133,10 +135,10 @@ const StoreContextProvider = (props) => {
     };
 
     // Handle page refresh
-    window.addEventListener('beforeunload', handlePageReload);
-    
+    window.addEventListener("beforeunload", handlePageReload);
+
     return () => {
-      window.removeEventListener('beforeunload', handlePageReload);
+      window.removeEventListener("beforeunload", handlePageReload);
     };
   }, []);
 
