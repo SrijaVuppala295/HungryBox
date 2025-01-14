@@ -73,7 +73,7 @@ const LoginPopup = ({ setShowLogin }) => {
   const handle2FaVerify = async (OTPcode) => {
     try {
       const verifyOTPResponse = await axios.post(
-        "http://localhost:4000/api/otpVerification/verifyOTP",
+        `${url}/api/otpVerification/verifyOTP`,
         {
           userId: pendingResponse.userId,
           otp: OTPcode,
