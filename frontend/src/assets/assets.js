@@ -58,6 +58,9 @@ import bag_icon from "./bag_icon.png";
 import logout_icon from "./logout_icon.png";
 import parcel_icon from "./parcel_icon.png";
 import feedbackform from "./feedbackform.gif";
+import app_screens from "./app_screens.png";
+import home_cook from "./home_cook.webp";
+import delivery_man from "./delivery_man.png";
 
 export const assets = {
   logo,
@@ -81,6 +84,9 @@ export const assets = {
   bag_icon,
   parcel_icon,
   feedbackform,
+  app_screens,
+  home_cook,
+  delivery_man,
 };
 
 export const menu_list = [
