@@ -1,6 +1,7 @@
 import userOTPVerifyModel from "../models/UserOTPVerify.js";
+import { Request, Response } from "express";
 
-const verify2faController = async (req, res) => {
+const verify2faController = async (req : Request, res : Response) => {
   const { userId, otp } = req.body;
 
   if (!userId || !otp) {

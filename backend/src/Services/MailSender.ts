@@ -1,7 +1,8 @@
 import nodemailer from "nodemailer";
 import userOTPVerifyModel from "../models/UserOTPVerify.js";
+import { Request, Response } from "express";
 
-const sendOTPVerification = async (user) => {
+const sendOTPVerification = async (user: any) => {
   try {
     const otp = Math.floor(1000 + Math.random() * 9000);
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
@@ -17,8 +18,8 @@ const sendOTPVerification = async (user) => {
     console.error(error);
   }
 };
-import { Request, Response } from "express";
-const sendMail = async (req : Request, res : Response, otp) => {
+
+const sendMail = async (req: Request, res: Response, otp: any = null) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     secure: true,
