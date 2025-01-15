@@ -164,6 +164,8 @@ const LoginPopup = ({ setShowLogin }) => {
                   type="text"
                   placeholder="Your Name"
                   required
+                  pattern="[a-zA-Z ]+"
+                  title="Please enter your name without numbers and special characters"
                 />
               )}
 
