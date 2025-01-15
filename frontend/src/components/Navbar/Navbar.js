@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = ({ setShowLogin }) => {
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
@@ -13,7 +14,7 @@ const Navbar = ({ setShowLogin }) => {
 
   const logout = useCallback(() => {
     sessionStorage.clear();
-    document.cookie.split(";").forEach(cookie => {
+    document.cookie.split(";").forEach((cookie) => {
       document.cookie = cookie
         .replace(/^ +/, "")
         .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
@@ -23,7 +24,8 @@ const Navbar = ({ setShowLogin }) => {
   }, [setToken, navigate]);
 
   useEffect(() => {
-    if (!token && window.location.pathname !== '/subscription') { // this allows the subscription page to be opened without logging in
+    if (!token && window.location.pathname !== "/subscription") {
+      // this allows the subscription page to be opened without logging in
       navigate("/");
     }
   }, [token, navigate]);
@@ -103,6 +105,7 @@ const Navbar = ({ setShowLogin }) => {
       </div>
 
       <div className="navbar-right">
+        <ThemeToggle />
         <div className="navbar-search-icon">
           <Link to="/cart">
             <img src={assets.basket_icon} alt="Cart" />
