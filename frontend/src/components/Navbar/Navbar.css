@@ -56,7 +56,7 @@
   position: fixed;
   right: 0;
   z-index: 999;
-  background-color: #FED8B1;
+  background-color: #fed8b1;
 }
 
 .logo {
@@ -68,7 +68,7 @@
 .navbar-menu {
   display: flex;
   gap: 20px;
-  color: #6F4E37;
+  color: #6f4e37;
   font-size: 19px;
 }
 
@@ -81,8 +81,8 @@
 .navbar button {
   background: transparent;
   font-size: 19px;
-  color: #6F4E37;
-  border: 1px solid rgb(52, 39, 36)o;
+  color: #6f4e37;
+  border: 1px solid rgb(52, 39, 36) o;
   padding: 10px 30px;
   border-radius: 50px;
   cursor: pointer;
@@ -95,7 +95,7 @@
 
 .navbar .active {
   padding-bottom: 2px;
-  border-bottom: 2px solid #6F4E37;
+  border-bottom: 2px solid #6f4e37;
   list-style: none;
 }
 
