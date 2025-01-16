@@ -12,3 +12,6 @@
 
 ## Images
 <!-- Add images if applicable -->
+
+## Note to reviewers
+<!-- Add notes to reviewers if applicable -->

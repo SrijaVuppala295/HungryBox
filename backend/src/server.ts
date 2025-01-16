@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
@@ -8,7 +9,6 @@ import orderRouter from "./routes/orderRoute.js";
 import feedbackRouter from "./routes/feedback.route.js";
 import otpVerificationRoutes from "./routes/OTPVefication.route.js";
 import dotenv from "dotenv";
-
 // loading envs
 dotenv.config({
   path: "./.env",
@@ -32,7 +32,7 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/feedback", feedbackRouter);
 app.use("/api/otpVerification", otpVerificationRoutes);
-app.use("/images", express.static("uploads"));
+app.use("/images", express.static(path.join(path.resolve(), "src/uploads")));
 
 app.get("/", (req, res) => {
   res.send("API Working");
