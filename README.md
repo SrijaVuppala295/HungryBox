@@ -133,5 +133,15 @@ Contributions are welcome! If you have suggestions or improvements, please follo
 
 5. **Open a Pull Request.**
 
+
+## Contributors
+
+A big shoutout and heartfelt thanks to all our amazing contributors for their incredible efforts and dedication! This project wouldn’t be where it is without you. 💖
+
+<a href="https://github.com/Mahak008/HungryBox/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Mahak008/HungryBox" />
+</a>
+
+
 ## Show some ❤️
 If you like this project, please give it a ⭐ on [Github](https://github.com/Mahak008/HungryBox)
