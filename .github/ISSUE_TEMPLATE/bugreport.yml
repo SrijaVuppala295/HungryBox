@@ -1,0 +1,32 @@
+name: Bug Report
+
+description: |
+  Use this template to report bugs or issues with the application.
+
+fields:
+  - name: **Description**
+    type: markdown
+    required: true
+    description: A clear and concise description of the bug.
+
+  - name: **Steps to Reproduce**
+    type: list
+    required: true
+    description: Provide the steps to reproduce the bug.
+
+  - name: **Expected Behavior**
+    type: markdown
+    required: true
+    description: What did you expect to happen?
+
+  - name: **Actual Behavior**
+    type: markdown
+    required: true
+    description: What actually happened?
+
+  - name: **Error Message/Logs**
+    type: code
+    required: true
+    description: Include any error messages or logs if available.
+
+ 

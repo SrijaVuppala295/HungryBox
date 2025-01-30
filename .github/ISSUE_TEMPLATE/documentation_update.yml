@@ -1,0 +1,24 @@
+name: Documentation Update
+
+description: |
+  Use this template to suggest improvements or updates for the documentation.
+
+fields:
+  - name: **Section to Update**
+    type: string
+    required: true
+    description: Specify which section of the documentation needs updating.
+
+  - name: **Proposed Changes**
+    type: markdown
+    required: true
+    description: Describe the changes you are suggesting to the documentation.
+
+  - name: **Reason for Update**
+    type: markdown
+    required: true
+    description: Why do you think this update is necessary?
+
+  - name: **Additional Information (Optional)**
+    type: markdown
+    description: Any additional context, images, or references to help with the update.
