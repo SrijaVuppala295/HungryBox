@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import React, { useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
@@ -16,11 +16,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log('App rendered with path:', location.pathname);
-  }, [location]);
 
   return (
     <ThemeProvider>
@@ -28,23 +23,15 @@ const App = () => {
         {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
         <div className="app">
           <Navbar setShowLogin={setShowLogin} />
-          <div className="main-content">
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/subscription" element={<Subscription />} />
-              <Route exact path="/cart" element={<Cart />} />
-              <Route exact path="/order" element={<PlaceOrder />} />
-              <Route exact path="/verify" element={<Verify />} />
-              <Route exact path="/myorders" element={<MyOrders />} />
-              <Route exact path="/contactus" element={<ContactUs />} />
-              <Route path="*" element={
-                <div>
-                  <h1>404: Page Not Found</h1>
-                  <p>Current path: {location.pathname}</p>
-                </div>
-              } />
-            </Routes>
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/order" element={<PlaceOrder />} />
+            <Route path="/verify" element={<Verify />} />
+            <Route path="/myorders" element={<MyOrders />} />
+            <Route path="/contactus" element={<ContactUs />} />
+          </Routes>
           <HappyClients />
         </div>
         <Footer />
@@ -53,4 +40,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App;   
