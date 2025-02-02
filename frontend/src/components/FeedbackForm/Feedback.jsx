@@ -1,4 +1,4 @@
-import { React, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";

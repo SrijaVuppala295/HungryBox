@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ContactUs.css";
+import { useLocation } from "react-router-dom";
 
 const ContactUs = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -21,12 +23,20 @@ const ContactUs = () => {
     console.log("Form submitted:", formData);
   };
 
+  useEffect(() => {
+    console.log("ContactUs mounted at path:", location.pathname);
+
+    return () => {
+      console.log("ContactUs unmounting from path:", location.pathname);
+    };
+  }, [location.pathname]);
+
   return (
     <div className="contact-container">
       <div className="form-wrapper">
         <form onSubmit={handleSubmit} className="contact-form">
           <h2>Contact Us</h2>
-          
+
           <div className="form-group">
             <input
               type="text"

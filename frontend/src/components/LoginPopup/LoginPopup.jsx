@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import "./LoginPopup.css";
-import { assets } from "../../assets/assets";
-import { StoreContext } from "../../context/StoreContext";
+import { assets } from "../../assets/assets.js";
+import { StoreContext } from "../../context/StoreContext.jsx";
 import axios from "axios";
-import TwoFactorAuth from "../TwoFactorAuth/TwoFactorAuth.js";
+import TwoFactorAuth from "../TwoFactorAuth/TwoFactorAuth.jsx";
 
 const LoginPopup = ({ setShowLogin }) => {
   const { url, setToken } = useContext(StoreContext);

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const StoreContext = createContext(null);
@@ -8,9 +8,13 @@ const StoreContextProvider = (props) => {
   const [token, setToken] = useState(
     () => sessionStorage.getItem("token") || null
   );
+  // Initialize food_list as an empty array instead of undefined
   const [food_list, setFoodList] = useState([]);
+  // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
 
-  const url = process.env.REACT_APP_API_URL;
+  // Update to use VITE prefix instead of REACT_APP
+  const url = import.meta.env.VITE_API_URL;
 
   // Add token validation function
   const validateToken = async (token) => {
@@ -90,33 +94,37 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     async function loadData() {
-      const savedToken = sessionStorage.getItem("token");
+      try {
+        const savedToken = sessionStorage.getItem("token");
 
-      // Add beforeunload event listener
-      const handleBeforeUnload = () => {
-        sessionStorage.clear();
-        setToken(null);
-        setCartItems({});
-      };
-
-      window.addEventListener("beforeunload", handleBeforeUnload);
-
-      if (savedToken) {
-        const isValid = await validateToken(savedToken);
-        if (!isValid) {
+        // Add beforeunload event listener
+        const handleBeforeUnload = () => {
           sessionStorage.clear();
           setToken(null);
           setCartItems({});
-        } else {
-          setToken(savedToken);
-          await loadCartData(savedToken);
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        if (savedToken) {
+          const isValid = await validateToken(savedToken);
+          if (!isValid) {
+            sessionStorage.clear();
+            setToken(null);
+            setCartItems({});
+          } else {
+            setToken(savedToken);
+            await loadCartData(savedToken);
+          }
         }
+
+        await fetchFoodList();
+
+        return () =>
+          window.removeEventListener("beforeunload", handleBeforeUnload);
+      } catch (error) {
+        console.error("Error loading data:", error);
       }
-
-      await fetchFoodList();
-
-      return () =>
-        window.removeEventListener("beforeunload", handleBeforeUnload);
     }
     loadData();
   }, []);
