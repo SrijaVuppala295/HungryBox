@@ -35,6 +35,11 @@ const PlaceOrder = () => {
 
   const placeOrder = async (event) => {
     event.preventDefault();
+
+    if (data.city.trim().toLowerCase() !== "new delhi") {
+      alert("Our services do not cater outside Delhi.");
+      return; // Stop execution if city is invalid
+    }
     const orderItems = food_list
       .filter((item) => cartItems[item._id] > 0)
       .map((item) => ({
@@ -113,9 +118,33 @@ const PlaceOrder = () => {
         <input name="email" onChange={onChangeHandler} value={data.email} type="text" placeholder="Email" required />
         <input name="street" onChange={onChangeHandler} value={data.street} type="text" placeholder="Street" required />
         <div className="multi-fields">
-          <input name="city" onChange={onChangeHandler} value={data.city} type="text" placeholder="City" required />
-          <input name="state" onChange={onChangeHandler} value={data.state} type="text" placeholder="State" required />
+        <div className="city-input-container">
+          <input 
+            name="city" 
+            onChange={onChangeHandler} 
+            value={data.city} 
+            type="text" 
+            placeholder="City" 
+            required 
+            className="form-input"
+          />
+          {data.city.trim().toLowerCase() !== "new delhi" && data.city.trim() !== "" && (
+            <p className="city-validation-note">❗ We currently serve only New Delhi</p>
+          )}
         </div>
+        <div className="state-input-container">
+          <input 
+            name="state" 
+            onChange={onChangeHandler} 
+            value={data.state} 
+            type="text" 
+            placeholder="State" 
+            required 
+            className="form-input"
+          />
+        </div>
+      </div>
+
         <div className="multi-fields">
           <input name="zipcode" onChange={onChangeHandler} value={data.zipcode} type="text" placeholder="Zip Code" required />
           <input name="country" onChange={onChangeHandler} value={data.country} type="text" placeholder="Country" required />
