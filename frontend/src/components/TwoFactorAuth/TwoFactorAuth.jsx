@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./TwoFactorAuth.css";
 import { assets } from "../../assets/assets";
 import { RiLockPasswordFill } from "react-icons/ri";

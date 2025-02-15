@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
 import "./FoodDisplay.css";
-import { StoreContext } from "../../context/StoreContext";
-import FoodItem from "../FoodItem/FoodItem";
+import { StoreContext } from "../../context/StoreContext.jsx";
+import FoodItem from "../FoodItem/FoodItem.jsx";
 
 const FoodDisplay = ({ category }) => {
   const { food_list } = useContext(StoreContext);
+  
+  // Add a loading state check
+  if (!food_list) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="food-display" id="food-display">
       <div className="food-display-list">
@@ -20,9 +26,8 @@ const FoodDisplay = ({ category }) => {
                 image={item.image}
               />
             );
-          } else {
-            return null;
           }
+          return null;
         })}
       </div>
     </div>
