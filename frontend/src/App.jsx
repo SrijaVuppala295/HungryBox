@@ -11,6 +11,7 @@ import MyOrders from "./pages/MyOrders/MyOrders";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Subscription from "./pages/Subscription/Subscription";
 import HappyClients from "./components/HappyClients/HappyClients";
+import Notfound from "./pages/notfound/Notfound";
 import "./styles/theme.css";
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/verify" element={<Verify />} />
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/contactus" element={<ContactUs />} />
+            <Route path="*" element={<Notfound />} />
           </Routes>
           <HappyClients />
         </div>
@@ -40,4 +42,4 @@ const App = () => {
   );
 };
 
-export default App;   
+export default App;
