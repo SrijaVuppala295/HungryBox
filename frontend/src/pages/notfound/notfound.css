@@ -14,7 +14,7 @@
   overflow: hidden;
 }
 
-.notfound-page .spline-component {
+.notfound-page .video-component {
   position: absolute;
   top: 0;
   left: 0;
@@ -23,10 +23,25 @@
   overflow: hidden;
 }
 
+.notfound-page .video-component video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .notfound-page .content {
-  position: relative;
+  width: 40rem;
+  padding: 40px 20px;
+  position: absolute;
+  left: 25%;
+  bottom: 0;
+  z-index: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 10px;
   color: white;
 }
