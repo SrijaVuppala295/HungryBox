@@ -3,6 +3,11 @@
   background: black;
   color: var(--text-color);
 }
+@media  (max-width: 400px) {
+  .kitchen-doorstep{
+    padding: 4rem 1rem;
+  }
+}
 
 .main-title {
   text-align: center;
