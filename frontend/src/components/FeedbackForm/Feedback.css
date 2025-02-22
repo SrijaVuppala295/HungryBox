@@ -194,23 +194,28 @@
   background-color: rgba(239, 68, 68, 0.1);
 }
 
+ 
 .submit-button {
-  width: 100%;
+  width: 40%;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
-  background: var(--purple-gradient);
+  background: rgb(150, 26, 26);
   color: white;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(170, 6, 6, 0.1);
+  transform: scale(1);
 }
 
 .submit-button:hover {
-  transform: translateY(-1px);
+   
+  background: rgb(245, 3, 3);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
 }
+
 
 .submit-button:active {
   transform: translateY(0);
