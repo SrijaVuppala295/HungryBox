@@ -1,6 +1,6 @@
 name: Bug Report 🐞
 description: Report any bugs or issues you've encountered.
-title: "[BUG] "
+title: "[🐞 Bug]: "
 labels: bug, needs triage
 assignees: ''
 
