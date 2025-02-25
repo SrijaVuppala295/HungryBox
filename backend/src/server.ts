@@ -20,7 +20,14 @@ const port = process.env.PORT || 4000;
 
 // middleware
 app.use(express.json());
-app.use(cors());
+
+const ORIGIN = "https://hungrybox-frontend.onrender.com/";
+// const ORIGIN = "http://localhost:5173";
+const corsOptions = {
+  origin: ORIGIN,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 // db connection
 connectDB();
