@@ -77,7 +77,7 @@ To get started with HungryBox, follow these steps:
   - Start the backend server:
 
     ```bash
-    npm run dev
+    npm run server
 
 3. **Frontend**
   - Navigate to the frontend directory:
