@@ -30,6 +30,8 @@ const Footer = () => {
               <i className="fa-brands fa-linkedin"></i>
               </a>
             </div>
+
+             
           </div>
 
           {/* Navigation Section */}
