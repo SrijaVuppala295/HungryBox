@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contribution Guidelines
+    url: https://github.com/swoc-project/hungrybox/blob/main/CONTRIBUTING.md
+    about: Please read the contribution guidelines before submitting any issues.
+  - name: Code of Conduct
+    url: https://github.com/swoc-project/hungrybox/blob/main/CODE_OF_CONDUCT.md
+    about: Please read the code of conduct before submitting any issues.
